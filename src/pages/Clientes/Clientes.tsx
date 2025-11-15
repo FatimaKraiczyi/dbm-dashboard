@@ -7,6 +7,7 @@ import DataTable from '../../components/DataTable';
 import type { DataTableColumn } from '../../components/DataTable';
 import { listClients } from '../../data/users';
 import type { Client } from '../../data/users';
+import { Add } from '@mui/icons-material';
 
 export default function Clientes() {
   const [open, setOpen] = useState(false);
@@ -77,9 +78,25 @@ export default function Clientes() {
 
   return (
     <Box sx={{ p: 6 }}>
-      <Typography variant="h1" sx={{ color: 'primary.main', mb: 3 }}>
-        Clientes
-      </Typography>
+      <Stack direction="row" alignItems="flex-end" spacing={2} mb={3}>
+        <Box flex={1}>
+          <Typography variant="h1" sx={{ color: 'primary.main' }}>
+            Clientes
+          </Typography>
+        </Box>
+        <Button
+          variant="contained"
+          startIcon={<Add />}
+          sx={{
+            bgcolor: '#1E2024',
+            color: '#F9FAFA',
+            textTransform: 'none',
+            px: 2,
+          }}
+        >
+          Novo cliente
+        </Button>
+      </Stack>
 
       <DataTable columns={columns} data={clients} loading={loading} getRowKey={(client) => client.id} />
 
