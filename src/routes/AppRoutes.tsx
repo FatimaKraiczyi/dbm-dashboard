@@ -1,12 +1,15 @@
 import { Routes, Route } from "react-router-dom";
-import Dashboard from "../pages/Dashboard/Dashboard";
 import Clientes from "../pages/Clientes/Clientes";
+import Chamados from "../pages/Chamados/Chamados";
+import Layout from "../modules/Layout/Layout";
 
 export default function AppRoutes() {
   return (
-    <Routes>
-      <Route path="/" element={<Dashboard />} />
-      <Route path="/clientes" element={<Clientes />} />
-    </Routes>
+    <Layout>
+      <Routes>
+        <Route path="/chamados" element={<Chamados />} />
+        <Route path="/clientes" element={<Clientes />} />
+      </Routes>
+    </Layout>
   );
 }
