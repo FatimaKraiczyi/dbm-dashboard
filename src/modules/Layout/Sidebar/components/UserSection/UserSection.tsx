@@ -1,11 +1,7 @@
 import { Avatar, Box, Stack, Typography } from "@mui/material";
+import { currentUser } from "../../../../../data/users";
 
-interface UserSectionProps {
-  name?: string;
-  email?: string;
-}
-
-export default function UserSection({ name = "Usuário Adm", email = "user.adm@test.com" }: UserSectionProps) {
+export default function UserSection() {
   return (
     <Box sx={{ p: 2, borderTop: "1px solid #1E2024" }}>
       <Stack direction="row" spacing={1.5} alignItems="center">
@@ -18,7 +14,7 @@ export default function UserSection({ name = "Usuário Adm", email = "user.adm@t
             fontWeight: 700,
           }}
         >
-          UA
+          {currentUser.initials}
         </Avatar>
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <Typography
@@ -31,7 +27,7 @@ export default function UserSection({ name = "Usuário Adm", email = "user.adm@t
               textOverflow: "ellipsis",
             }}
           >
-            {name}
+            {currentUser.name}
           </Typography>
           <Typography
             sx={{
@@ -43,7 +39,7 @@ export default function UserSection({ name = "Usuário Adm", email = "user.adm@t
               textOverflow: "ellipsis",
             }}
           >
-            {email}
+            {currentUser.email}
           </Typography>
         </Box>
       </Stack>
