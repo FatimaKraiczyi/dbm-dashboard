@@ -1,8 +1,10 @@
-import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Avatar, Stack, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button, CircularProgress } from '@mui/material';
-import { useState, useEffect } from 'react';
+import { Box, Typography, Avatar, Stack, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+import { useState, useEffect, useMemo } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
+import DataTable from '../../components/DataTable';
+import type { DataTableColumn } from '../../components/DataTable';
 import { listClients } from '../../data/users';
 import type { Client } from '../../data/users';
 
@@ -35,65 +37,51 @@ export default function Clientes() {
     setSelectedClient(null);
   };
 
+  const columns = useMemo<DataTableColumn<Client>[]>(() => [
+    {
+      id: 'name',
+      label: 'Nome',
+      render: (client) => (
+        <Stack direction="row" spacing={1.5} alignItems="center">
+          <Avatar sx={{ width: 32, height: 32, fontSize: '12px' }}>
+            {client.initials}
+          </Avatar>
+          <Typography sx={{ fontSize: '14px', fontWeight: 700 }}>
+            {client.name}
+          </Typography>
+        </Stack>
+      ),
+    },
+    {
+      id: 'email',
+      label: 'E-mail',
+      render: (client) => <Typography sx={{ fontSize: '14px' }}>{client.email}</Typography>,
+    },
+    {
+      id: 'actions',
+      label: ' ',
+      width: 88,
+      align: 'center',
+      render: (client) => (
+        <Stack direction="row" spacing={0.5} justifyContent="center">
+          <IconButton size="small" sx={{ color: '#D03E3E' }}>
+            <DeleteIcon sx={{ fontSize: 14 }} />
+          </IconButton>
+          <IconButton size="small" sx={{ color: '#1E2024' }} onClick={() => handleOpen(client)}>
+            <EditIcon sx={{ fontSize: 14 }} />
+          </IconButton>
+        </Stack>
+      ),
+    },
+  ], []);
+
   return (
     <Box sx={{ p: 6 }}>
-      <Typography variant="h1" sx={{ color: '#2E3DA3', mb: 3 }}>
+      <Typography variant="h1" sx={{ color: 'primary.main', mb: 3 }}>
         Clientes
       </Typography>
 
-      {loading ? (
-        <Stack alignItems="center" justifyContent="center" sx={{ height: 240 }}>
-          <CircularProgress size={32} />
-        </Stack>
-      ) : (
-        <TableContainer component={Paper} sx={{ border: '1px solid #E3E5E8' }}>
-          <Table>
-            <TableHead>
-              <TableRow sx={{ bgcolor: '#F9FAFA' }}>
-                <TableCell>Nome</TableCell>
-                <TableCell sx={{ width: 400 }}>E-mail</TableCell>
-                <TableCell sx={{ width: 88, textAlign: 'center' }}>Ação</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {clients.map((client) => (
-                <TableRow key={client.id}>
-                  <TableCell>
-                    <Stack direction="row" spacing={1.5} alignItems="center">
-                      <Avatar sx={{ width: 32, height: 32, bgcolor: '#2E3DA3', fontSize: '12px' }}>
-                        {client.initials}
-                      </Avatar>
-                      <Typography sx={{ fontSize: '14px', fontWeight: 700, color: '#1E2024' }}>
-                        {client.name}
-                      </Typography>
-                    </Stack>
-                  </TableCell>
-                  <TableCell sx={{ fontSize: '14px', color: '#1E2024' }}>
-                    {client.email}
-                  </TableCell>
-                  <TableCell sx={{ textAlign: 'center' }}>
-                    <Stack direction="row" spacing={0.5} justifyContent="center">
-                      <IconButton
-                        size="small"
-                        sx={{ bgcolor: '#E3E5E8', color: '#D03E3E' }}
-                      >
-                        <DeleteIcon sx={{ fontSize: 14 }} />
-                      </IconButton>
-                      <IconButton
-                        size="small"
-                        sx={{ bgcolor: '#E3E5E8', color: '#1E2024' }}
-                        onClick={() => handleOpen(client)}
-                      >
-                        <EditIcon sx={{ fontSize: 14 }} />
-                      </IconButton>
-                    </Stack>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      )}
+      <DataTable columns={columns} data={clients} loading={loading} getRowKey={(client) => client.id} />
 
       {/* Client Detail Modal */}
       <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
