@@ -1,73 +1,48 @@
-# React + TypeScript + Vite
+# DBM Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicação web desenvolvida com propósito de simular o acompanhamento de chamados e clientes.
 
-Currently, two official plugins are available:
+## 💡 Ideia da solução
+- Reproduzir uma visão de painel operacional com navegação lateral fixa.
+- Exibir a lista de chamados com status, técnico responsável e valores formatados.
+- Disponibilizar um detalhe completo do chamado com serviços adicionais e totais calculados dinamicamente.
+- Incluir uma página de clientes com diálogo de edição para evidenciar o fluxo de estado e modais.
+- Mockar integrações através de repositórios em memória para manter o foco na apresentação e na arquitetura.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🧰 Tecnologias utilizadas
+- React 19 com React Router para roteamento da aplicação.
+- TypeScript no modo estrito e path alias `@/*` para imports curtos.
+- Vite como bundler e dev server.
+- Material UI 7 + Emotion para UI e theming.
+- ESLint (`@eslint/js`, `@stylistic`, hooks) para padronizar o código.
 
-## React Compiler
+## 🎯 O que a solução demonstra
+- Separação em camadas (`domain`, `data`, `infra`, `presentation`, `main`) inspirada em Clean Architecture.
+- Hooks e contextos próprios (`useTickets`, `TicketProvider`) para encapsular estado assíncrono.
+- Componentes reutilizáveis (DataTable, StatusBadge, Layout/Sidebar) com estilização consistente.
+- Simulação de cenários assíncronos via datasources mockados com atraso artificial.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 📂 Estrutura resumida
+```
+src/
+├── domain        # Modelos e contratos de casos de uso
+├── data          # Implementações dos casos de uso
+├── infra         # Repositórios e datasources em memória
+├── presentation  # Componentes React, páginas, hooks, estilos
+└── main          # Bootstrap, tema e roteamento
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## ✅ Pré-requisitos
+- Node.js 20+
+- npm 9+ **ou** Yarn 1.22+
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🚀 Como executar
+```bash
+# npm
+npm install
+npm run dev
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Yarn
+yarn install
+yarn dev
 ```
