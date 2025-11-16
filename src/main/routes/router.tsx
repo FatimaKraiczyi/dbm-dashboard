@@ -1,9 +1,10 @@
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider } from '@mui/material/styles'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { makeClientsPage, makeTicketDetailPage, makeTicketListPage } from '@/main/factories/pages'
+import { makeClientsPage, makeMyTicketsPage, makeTicketDetailPage, makeTicketListPage } from '@/main/factories/pages'
 import theme from '@/presentation/styles/theme'
 import { App } from '@/presentation/components'
+import { CurrentUserProvider } from '@/presentation/contexts'
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,7 @@ const router = createBrowserRouter([
       { path: 'chamados', element: makeTicketListPage() },
       { path: 'chamados/:id', element: makeTicketDetailPage() },
       { path: 'clientes', element: makeClientsPage() },
+      { path: 'meus-chamados', element: makeMyTicketsPage() },
     ],
   },
 ])
@@ -23,7 +25,9 @@ export function Router() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <RouterProvider router={router} />
+      <CurrentUserProvider>
+        <RouterProvider router={router} />
+      </CurrentUserProvider>
     </ThemeProvider>
   )
 }

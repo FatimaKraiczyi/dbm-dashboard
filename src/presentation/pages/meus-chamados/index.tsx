@@ -1,0 +1,97 @@
+import { Alert, Box, CircularProgress, Stack, Typography } from '@mui/material';
+import { useMemo } from 'react';
+import type { Ticket } from '@/domain/models';
+import type { ListTickets } from '@/domain/usecases/chamados';
+import { PageHeader } from '@/presentation/components';
+import { useCurrentUser } from '@/presentation/contexts';
+import { useTicketList } from '@/presentation/hooks/chamados';
+import { TechnicianTicketCard } from './components';
+
+interface MeusChamadosPageProps {
+  listTickets: ListTickets;
+}
+
+const statusSections = [
+  { key: 'progress', label: 'Em atendimento', description: 'Chamados em execução' },
+  { key: 'open', label: 'Aberto', description: 'Chamados aguardando início' },
+  { key: 'done', label: 'Encerrado', description: 'Chamados concluídos' },
+] as const;
+
+type StatusKey = (typeof statusSections)[number]['key'];
+
+type TicketsByStatus = Record<StatusKey, Ticket[]>;
+
+export function MeusChamadosPage({ listTickets }: MeusChamadosPageProps) {
+  const { user } = useCurrentUser();
+  const { tickets, loading, error } = useTicketList(listTickets);
+
+  const groupedTickets = useMemo(() => {
+    const initial: TicketsByStatus = { open: [], progress: [], done: [] };
+    const technicianTickets = tickets.filter((ticket) => ticket.technician.email === user.email);
+
+    return technicianTickets.reduce<TicketsByStatus>((acc, ticket) => {
+      acc[ticket.status].push(ticket);
+      return acc;
+    }, initial);
+  }, [tickets, user.email]);
+
+  if (loading) {
+    return (
+      <Box sx={{ p: 6, display: 'flex', justifyContent: 'center' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  return (
+    <Box sx={{ p: 6 }}>
+      <PageHeader title="Meus chamados" description={`Chamados atribuídos a ${user.name}`} />
+
+      {error && (
+        <Alert severity="error" sx={{ mb: 3 }}>
+          {error}
+        </Alert>
+      )}
+
+      <Stack spacing={3}>
+        {statusSections.map(({ key, label, description }) => {
+          const ticketsByStatus = groupedTickets[key];
+          return (
+            <Box key={key}>
+              <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
+                <Box>
+                  <Typography sx={{ fontSize: '14px', fontWeight: 700 }}>{label}</Typography>
+                  <Typography sx={{ fontSize: '13px', color: '#535964' }}>{description}</Typography>
+                </Box>
+                <Typography sx={{ fontSize: '12px', color: '#8E95A2' }}>
+                  {ticketsByStatus.length} chamados
+                </Typography>
+              </Stack>
+              {ticketsByStatus.length > 0 ? (
+                <Box
+                  sx={{
+                    display: 'grid',
+                    gap: 2,
+                    gridTemplateColumns: {
+                      xs: '1fr',
+                      md: 'repeat(2, minmax(0, 1fr))',
+                      lg: 'repeat(3, minmax(0, 1fr))',
+                    },
+                  }}
+                >
+                  {ticketsByStatus.map((ticket) => (
+                    <TechnicianTicketCard key={ticket.id} ticket={ticket} />
+                  ))}
+                </Box>
+              ) : (
+                <Typography sx={{ fontSize: '13px', color: '#8E95A2' }}>
+                  Nenhum chamado {label.toLowerCase()}
+                </Typography>
+              )}
+            </Box>
+          );
+        })}
+      </Stack>
+    </Box>
+  );
+}

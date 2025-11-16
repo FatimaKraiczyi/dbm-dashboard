@@ -1,8 +1,13 @@
-import { Avatar, Box, Stack, Typography } from '@mui/material';
-import { getCurrentUser } from '@/infra/cache';
+import { Avatar, Box, MenuItem, Select, Stack, Typography } from '@mui/material';
+import type { SelectChangeEvent } from '@mui/material/Select';
+import { useCurrentUser } from '@/presentation/contexts';
 
 export function SidebarUserSection() {
-  const currentUser = getCurrentUser();
+  const { user, availableUsers, switchUser } = useCurrentUser();
+
+  const handleChange = (event: SelectChangeEvent<string>) => {
+    switchUser(event.target.value as string);
+  };
 
   return (
     <Box sx={{ p: 2, borderTop: '1px solid #1E2024' }}>
@@ -16,7 +21,7 @@ export function SidebarUserSection() {
             fontWeight: 700,
           }}
         >
-          {currentUser.initials}
+          {user.initials}
         </Avatar>
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <Typography
@@ -29,7 +34,7 @@ export function SidebarUserSection() {
               textOverflow: 'ellipsis',
             }}
           >
-            {currentUser.name}
+            {user.name}
           </Typography>
           <Typography
             sx={{
@@ -41,10 +46,28 @@ export function SidebarUserSection() {
               textOverflow: 'ellipsis',
             }}
           >
-            {currentUser.email}
+            {user.email}
           </Typography>
         </Box>
       </Stack>
+      <Select
+        size="small"
+        value={user.id}
+        onChange={handleChange}
+        fullWidth
+        sx={{
+          mt: 1.5,
+          bgcolor: '#1E2024',
+          color: '#F9FAFA',
+          '& .MuiSelect-icon': { color: '#858B99' },
+        }}
+      >
+        {availableUsers.map((option) => (
+          <MenuItem key={option.id} value={option.id}>
+            {option.name}
+          </MenuItem>
+        ))}
+      </Select>
     </Box>
   );
 }
