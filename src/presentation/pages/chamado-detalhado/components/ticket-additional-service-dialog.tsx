@@ -1,6 +1,5 @@
 import CloseIcon from '@mui/icons-material/Close';
 import {
-  Alert,
   Box,
   Button,
   Dialog,
@@ -14,6 +13,7 @@ import {
 } from '@mui/material';
 import { useState, type FormEvent } from 'react';
 import type { AdditionalService } from '@/domain/models';
+import theme from '@/presentation/styles/theme';
 
 export interface AdditionalServiceFormData {
   id?: string;
@@ -32,9 +32,6 @@ interface TicketAdditionalServiceDialogProps {
 export function TicketAdditionalServiceDialog({ open, service, loading, onClose, onSubmit }: TicketAdditionalServiceDialogProps) {
   const [name, setName] = useState(() => service?.name ?? '');
   const [value, setValue] = useState(() => service?.value ?? '');
-  const [error, setError] = useState<string | null>(null);
-
-  const title = service ? 'Editar serviço adicional' : 'Adicionar serviço adicional';
 
   const handleClose = () => {
     if (!loading) {
@@ -44,41 +41,50 @@ export function TicketAdditionalServiceDialog({ open, service, loading, onClose,
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!name.trim() || !value.trim()) {
-      setError('Preencha o nome e o valor do serviço.');
-      return;
-    }
 
-    setError(null);
-    try {
-      await onSubmit({ id: service?.id, name, value });
-      onClose();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Não foi possível salvar o serviço.');
-    }
+    await onSubmit({ id: service?.id, name, value });
+    onClose();
+    
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
-      <DialogTitle sx={{ pb: 1 }}>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      maxWidth="xs"
+      fullWidth
+      PaperProps={{
+        sx: (theme) => ({
+          borderRadius: '10px',
+          padding: 0,
+          border: `1px solid ${theme.palette.grey[500]}`,
+          backgroundColor: theme.palette.background.paper,
+        }),
+      }}
+    >
+      <DialogTitle
+        sx={(theme) => ({
+          p: '20px 28px',
+          borderBottom: `1px solid ${theme.palette.grey[300]}`,
+          bgcolor: theme.palette.grey[100],
+          borderTopLeftRadius: '10px',
+          borderTopRightRadius: '10px',
+        })}
+      >
         <Stack direction="row" justifyContent="space-between" alignItems="center">
-          <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#1E2024' }}>{title}</Typography>
+          <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#1E2024' }}>Serviço Adicional</Typography>
           <IconButton size="small" onClick={handleClose} disabled={loading}>
             <CloseIcon sx={{ fontSize: 18 }} />
           </IconButton>
         </Stack>
       </DialogTitle>
       <Box component="form" onSubmit={handleSubmit}>
-        <DialogContent sx={{ py: 3 }}>
-          <Stack spacing={2}>
-            {error && (
-              <Alert severity="error" sx={{ fontSize: '12px' }}>
-                {error}
-              </Alert>
-            )}
-            <Box>
-              <Typography sx={{ fontSize: '10px', fontWeight: 700, color: '#535964', textTransform: 'uppercase', mb: 0.5 }}>
-                Nome do serviço
+        <DialogContent sx={{ p: '28px 28px 32px', gap: '20px', borderBottom: `1px solid ${theme.palette.grey[300]}`,
+        }}>
+          <Stack sx={{ gap: '16px' }}>
+            <Box display="flex" flexDirection="column" gap='8px'>
+              <Typography variant='caption'>
+                Descrição
               </Typography>
               <TextField
                 value={name}
@@ -87,10 +93,21 @@ export function TicketAdditionalServiceDialog({ open, service, loading, onClose,
                 size="small"
                 fullWidth
                 required
+                variant="standard"
+                InputProps={{
+                  disableUnderline: true,
+                  sx: (theme) => ({
+                    borderRadius: 0,
+                    borderBottom: `1px solid ${theme.palette.grey[500]}`,
+                    '&:focus-within': {
+                      borderBottomColor: theme.palette.primary.main,
+                    },
+                  }),
+                }}
               />
             </Box>
-            <Box>
-              <Typography sx={{ fontSize: '10px', fontWeight: 700, color: '#535964', textTransform: 'uppercase', mb: 0.5 }}>
+            <Box display="flex" flexDirection="column" gap='8px'>
+              <Typography variant='caption'>
                 Valor
               </Typography>
               <TextField
@@ -100,36 +117,36 @@ export function TicketAdditionalServiceDialog({ open, service, loading, onClose,
                 size="small"
                 fullWidth
                 required
+                variant="standard"
+                InputProps={{
+                  disableUnderline: true,
+                  sx: (theme) => ({
+                    borderRadius: 0,
+                    borderBottom: `1px solid ${theme.palette.grey[500]}`,
+                    '&:focus-within': {
+                      borderBottomColor: theme.palette.primary.main,
+                    },
+                  }),
+                }}
               />
             </Box>
           </Stack>
         </DialogContent>
-        <DialogActions sx={{ p: 3 }}>
-          <Button
-            variant="text"
-            onClick={handleClose}
-            sx={{ textTransform: 'none', fontSize: '14px', fontWeight: 500 }}
-            disabled={loading}
-          >
-            Cancelar
-          </Button>
+        <DialogActions sx={{ padding: '24px 28px', gap: '8px', display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
           <Button
             variant="contained"
             type="submit"
+            fullWidth
             disabled={loading}
             sx={{
               bgcolor: '#1E2024',
-              color: '#F9FAFA',
-              textTransform: 'none',
+              color: theme.palette.background.paper,
+              borderRadius: '5px',
               fontSize: '14px',
-              fontWeight: 500,
-              '&:disabled': {
-                bgcolor: '#9CA3AF',
-                color: '#E5E7EB',
-              },
+              fontWeight: 400
             }}
           >
-            {loading ? 'Salvando...' : 'Salvar serviço'}
+            {loading ? 'Salvando...' : 'Salvar'}
           </Button>
         </DialogActions>
       </Box>
