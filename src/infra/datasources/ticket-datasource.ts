@@ -1,6 +1,18 @@
-import type { Ticket } from '@/domain/models';
+import type { Ticket, TicketStatus } from '@/domain/models';
 
-const ticketsDB: Ticket[] = [
+const STORAGE_KEY = 'dbm-dashboard:tickets';
+
+const STATUS_LABELS: Record<TicketStatus, string> = {
+  open: 'Aberto',
+  progress: 'Em atendimento',
+  done: 'Encerrado',
+};
+
+function clone<T>(value: T): T {
+  return JSON.parse(JSON.stringify(value)) as T;
+}
+
+const defaultTickets: Ticket[] = [
   {
     id: '00003',
     createdAt: '2025-04-13T18:30:00',
@@ -73,11 +85,68 @@ const ticketsDB: Ticket[] = [
 ];
 
 export async function listTickets(): Promise<Ticket[]> {
-  await new Promise((resolve) => setTimeout(resolve, 150));
-  return ticketsDB;
+  await delay(150);
+  return clone(readTickets());
 }
 
 export async function getTicket(id: string): Promise<Ticket | undefined> {
-  await new Promise((resolve) => setTimeout(resolve, 100));
-  return ticketsDB.find((ticket) => ticket.id === id);
+  await delay(100);
+  const ticket = readTickets().find((item) => item.id === id);
+  return ticket ? clone(ticket) : undefined;
+}
+
+export async function updateTicketStatus(id: string, status: TicketStatus): Promise<Ticket | undefined> {
+  await delay(120);
+  const tickets = readTickets();
+  const index = tickets.findIndex((ticket) => ticket.id === id);
+  if (index === -1) {
+    return undefined;
+  }
+
+  const nextTicket: Ticket = {
+    ...tickets[index],
+    status,
+    statusLabel: STATUS_LABELS[status],
+    date: new Date().toISOString(),
+  };
+
+  const updatedTickets = [...tickets];
+  updatedTickets[index] = nextTicket;
+  persistTickets(updatedTickets);
+
+  return clone(nextTicket);
+}
+
+function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+let runtimeTickets: Ticket[] = clone(defaultTickets);
+
+function readTickets(): Ticket[] {
+  if (typeof window === 'undefined') {
+    return runtimeTickets;
+  }
+
+  const stored = window.localStorage.getItem(STORAGE_KEY);
+  if (!stored) {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(runtimeTickets));
+    return runtimeTickets;
+  }
+
+  try {
+    runtimeTickets = JSON.parse(stored) as Ticket[];
+  } catch {
+    runtimeTickets = clone(defaultTickets);
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(runtimeTickets));
+  }
+
+  return runtimeTickets;
+}
+
+function persistTickets(tickets: Ticket[]) {
+  runtimeTickets = clone(tickets);
+  if (typeof window !== 'undefined') {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(runtimeTickets));
+  }
 }

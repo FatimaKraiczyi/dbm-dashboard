@@ -20,7 +20,7 @@ Aplicação web desenvolvida com propósito de simular o acompanhamento de chama
 - Separação em camadas (`domain`, `data`, `infra`, `presentation`, `main`) inspirada em Clean Architecture.
 - Hooks e contextos próprios (`useTickets`, `TicketProvider`) para encapsular estado assíncrono.
 - Componentes reutilizáveis (DataTable, StatusBadge, Layout/Sidebar) com estilização consistente.
-- Simulação de cenários assíncronos via datasources mockados com atraso artificial.
+- Simulação de cenários assíncronos via datasources mockados com atraso artificial e persistência em `localStorage`.
 
 ## 📂 Estrutura resumida
 ```

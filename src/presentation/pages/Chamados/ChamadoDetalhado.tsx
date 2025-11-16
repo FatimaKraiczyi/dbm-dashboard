@@ -6,8 +6,8 @@ import ScheduleIcon from '@mui/icons-material/Schedule';
 import { Avatar, Box, Button, CircularProgress, Divider, IconButton, Paper, Stack, Typography } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import type { Ticket } from '@/domain/models';
-import { LoadTicketById } from '@/data/usecases';
+import type { Ticket, TicketStatus } from '@/domain/models';
+import { LoadTicketById, UpdateTicketStatusImpl } from '@/data/usecases';
 import { InMemoryTicketRepository } from '@/infra/repositories';
 import { StatusBadge } from '@/presentation/components';
 import { formatDate } from '@/presentation/utils';
@@ -21,9 +21,11 @@ export default function ChamadoDetalhado() {
   const navigate = useNavigate();
   const repository = useMemo(() => new InMemoryTicketRepository(), []);
   const getTicket = useMemo(() => new LoadTicketById(repository), [repository]);
+  const updateStatus = useMemo(() => new UpdateTicketStatusImpl(repository), [repository]);
 
   const [ticket, setTicket] = useState<Ticket | null>(null);
   const [loading, setLoading] = useState(true);
+  const [updatingStatus, setUpdatingStatus] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -77,6 +79,22 @@ export default function ChamadoDetalhado() {
   const additionalValue = additionalServices.reduce((sum, svc) => sum + parseValue(svc.value), 0);
   const totalValue = baseValue + additionalValue;
 
+  async function handleStatusChange(status: TicketStatus) {
+    if (!ticket || ticket.status === status) {
+      return;
+    }
+
+    setUpdatingStatus(true);
+    try {
+      const updated = await updateStatus.execute({ id: ticket.id, status });
+      if (updated) {
+        setTicket(updated);
+      }
+    } finally {
+      setUpdatingStatus(false);
+    }
+  }
+
   return (
     <Box sx={{ p: 6 }}>
       <Stack direction="row" alignItems="flex-end" spacing={2} mb={3}>
@@ -110,6 +128,8 @@ export default function ChamadoDetalhado() {
               textTransform: 'none',
               px: 2,
             }}
+            disabled={updatingStatus || ticket.status === 'done'}
+            onClick={() => handleStatusChange('done')}
           >
             Encerrar
           </Button>
@@ -122,6 +142,8 @@ export default function ChamadoDetalhado() {
               textTransform: 'none',
               px: 2,
             }}
+            disabled={updatingStatus || ticket.status === 'progress'}
+            onClick={() => handleStatusChange('progress')}
           >
             Iniciar atendimento
           </Button>

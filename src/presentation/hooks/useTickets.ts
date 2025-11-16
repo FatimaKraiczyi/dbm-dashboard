@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { LoadTicketById, LoadTickets } from '@/data/usecases';
+import { LoadTicketById, LoadTickets, UpdateTicketStatusImpl } from '@/data/usecases';
 import { InMemoryTicketRepository } from '@/infra/repositories';
-import type { Ticket } from '@/domain/models';
+import type { Ticket, TicketStatus } from '@/domain/models';
 
 export function useTickets() {
   const repository = useMemo(() => new InMemoryTicketRepository(), []);
   const listTickets = useMemo(() => new LoadTickets(repository), [repository]);
   const getTicket = useMemo(() => new LoadTicketById(repository), [repository]);
+  const changeStatus = useMemo(() => new UpdateTicketStatusImpl(repository), [repository]);
 
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [loading, setLoading] = useState(false);
@@ -39,6 +40,20 @@ export function useTickets() {
     }
   }, [getTicket]);
 
+  const updateTicketStatus = useCallback(async (id: string, status: TicketStatus) => {
+    setError(null);
+    try {
+      const updated = await changeStatus.execute({ id, status });
+      if (updated) {
+        setTickets((prev) => prev.map((ticket) => (ticket.id === id ? updated : ticket)));
+      }
+      return updated ?? null;
+    } catch (err) {
+      setError(err as Error);
+      throw err;
+    }
+  }, [changeStatus]);
+
   useEffect(() => {
     loadTickets();
   }, [loadTickets]);
@@ -49,5 +64,6 @@ export function useTickets() {
     error,
     loadTickets,
     loadTicketById,
+    updateTicketStatus,
   };
 }
