@@ -61,30 +61,14 @@ export function ChamadoDetalhadoPage({ loadTicket, changeStatus, addAdditionalSe
     );
   }
 
-  if (!ticket) {
-    return (
-      <Box sx={{ p: 6 }}>
-        <Typography variant="h1" sx={{ color: 'primary.main', mb: 2 }}>
-          Chamado não encontrado
-        </Typography>
-        <TicketDetailHeader
-          onBack={() => navigate('/chamados')}
-          onComplete={() => undefined}
-          onStart={() => undefined}
-          disableComplete
-          disableStart
-        />
-      </Box>
-    );
-  }
   return (
     <Box sx={{ p: 6 }}>
       <TicketDetailHeader
         onBack={() => navigate('/chamados')}
         onComplete={() => handleStatusChange('done')}
         onStart={() => handleStatusChange('progress')}
-        disableComplete={updatingStatus || ticket.status === 'done'}
-        disableStart={updatingStatus || ticket.status === 'progress'}
+        disableComplete={updatingStatus || ticket?.status === 'done'}
+        disableStart={updatingStatus || ticket?.status === 'progress'}
       />
 
       {error && (
@@ -95,7 +79,7 @@ export function ChamadoDetalhadoPage({ loadTicket, changeStatus, addAdditionalSe
 
       <Stack direction="row" spacing={3}>
         <Box sx={{ flex: 1, maxWidth: 480 }}>
-          <TicketMainCard ticket={ticket} />
+          {ticket ? <TicketMainCard ticket={ticket} /> : null}
           <TicketAdditionalServicesCard
             services={additionalServices}
             onAdd={handleOpenServiceDialog}
@@ -107,11 +91,13 @@ export function ChamadoDetalhadoPage({ loadTicket, changeStatus, addAdditionalSe
         </Box>
 
         <Box sx={{ flex: 1 }}>
-          <TicketSummaryCard
-            ticket={ticket}
-            additionalValue={totals.additionalValue}
-            totalValue={totals.totalValue}
-          />
+          {ticket ? (
+            <TicketSummaryCard
+              ticket={ticket}
+              additionalValue={totals.additionalValue}
+              totalValue={totals.totalValue}
+            />
+          ) : null}
         </Box>
       </Stack>
 

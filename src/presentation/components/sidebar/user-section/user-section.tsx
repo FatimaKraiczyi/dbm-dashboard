@@ -2,11 +2,17 @@ import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { Avatar, Box, ButtonBase, Divider, ListItemIcon, Menu, MenuItem, Stack, Typography } from '@mui/material';
 import { useState, type MouseEvent } from 'react';
 import { useCurrentUser } from '@/presentation/contexts';
+import { useLogout } from '@/presentation/hooks';
 
 export function SidebarUserSection() {
   const { user, availableUsers, switchUser } = useCurrentUser();
+  const logout = useLogout();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
+  if (!user) {
+    return null;
+  }
 
   const handleToggle = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl((current) => (current ? null : event.currentTarget));
@@ -158,7 +164,10 @@ export function SidebarUserSection() {
         </Stack>
         <Divider sx={{ borderColor: 'rgba(255,255,255,0.08)' }} />
         <MenuItem
-          onClick={handleClose}
+          onClick={() => {
+            logout();
+            handleClose();
+          }}
           sx={{
             p: 2,
             color: '#D03E3E',

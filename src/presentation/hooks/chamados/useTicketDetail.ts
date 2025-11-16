@@ -22,7 +22,7 @@ interface TicketTotals {
 }
 
 interface UseTicketDetailResult {
-  ticket: Ticket | null;
+  ticket?: Ticket;
   loading: boolean;
   updatingStatus: boolean;
   managingService: boolean;
@@ -44,7 +44,7 @@ export function useTicketDetail({
   addAdditionalService,
   removeAdditionalService,
 }: UseTicketDetailParams): UseTicketDetailResult {
-  const [ticket, setTicket] = useState<Ticket | null>(null);
+  const [ticket, setTicket] = useState<Ticket>();
   const [loading, setLoading] = useState(true);
   const [updatingStatus, setUpdatingStatus] = useState(false);
   const [managingService, setManagingService] = useState(false);
@@ -63,7 +63,7 @@ export function useTicketDetail({
         setError(null);
         const data = await loadTicket.execute(id);
         if (mounted) {
-          setTicket(data ?? null);
+          setTicket(data);
         }
       } catch (err) {
         if (mounted) {

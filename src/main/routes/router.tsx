@@ -1,49 +1,53 @@
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider } from '@mui/material/styles'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { makeClientsPage, makeMyTicketsPage, makeTicketDetailPage, makeTicketListPage } from '@/main/factories/pages'
+import { makeClientsPage, makeMyTicketsPage, makeSignInPage, makeTicketDetailPage, makeTicketListPage } from '@/main/factories/pages'
 import theme from '@/presentation/styles/theme'
-import { App } from '@/presentation/components'
-import { CurrentUserProvider } from '@/presentation/contexts'
-import { RoleHomeRedirect, RoleProtectedRoute } from '@/presentation/routes'
+import { AppProvider } from '@/presentation/contexts'
+import { PrivateRoute, RoleHomeRedirect } from '@/presentation/pages/protected-route'
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <App />,
+    path: '/signin',
+    element: makeSignInPage(),
+  },
+  {
+    element: <PrivateRoute />,
     children: [
-      { index: true, element: <RoleHomeRedirect /> },
       {
-        path: 'chamados',
-        element: (
-          <RoleProtectedRoute allowedRoles={['admin']}>
-            {makeTicketListPage()}
-          </RoleProtectedRoute>
-        ),
+        path: '/',
+        element: <RoleHomeRedirect />,
+      },
+    ],
+  },
+  {
+    element: <PrivateRoute allowedRoles={['admin']} />,
+    children: [
+      {
+        path: '/chamados',
+        element: makeTicketListPage(),
       },
       {
-        path: 'chamado/:id',
-        element: (
-          <RoleProtectedRoute allowedRoles={['admin', 'técnico']}>
-            {makeTicketDetailPage()}
-          </RoleProtectedRoute>
-        ),
+        path: '/clientes',
+        element: makeClientsPage(),
       },
+    ],
+  },
+  {
+    element: <PrivateRoute allowedRoles={['admin', 'técnico']} />,
+    children: [
       {
-        path: 'clientes',
-        element: (
-          <RoleProtectedRoute allowedRoles={['admin']}>
-            {makeClientsPage()}
-          </RoleProtectedRoute>
-        ),
+        path: '/chamado/:id',
+        element: makeTicketDetailPage(),
       },
+    ],
+  },
+  {
+    element: <PrivateRoute allowedRoles={['técnico']} />,
+    children: [
       {
-        path: 'meus-chamados',
-        element: (
-          <RoleProtectedRoute allowedRoles={['técnico']}>
-            {makeMyTicketsPage()}
-          </RoleProtectedRoute>
-        ),
+        path: '/meus-chamados',
+        element: makeMyTicketsPage(),
       },
     ],
   },
@@ -54,9 +58,9 @@ export function Router() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <CurrentUserProvider>
+      <AppProvider>
         <RouterProvider router={router} />
-      </CurrentUserProvider>
+      </AppProvider>
     </ThemeProvider>
   )
 }

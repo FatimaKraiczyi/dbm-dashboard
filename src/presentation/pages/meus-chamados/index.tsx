@@ -30,13 +30,17 @@ export function MeusChamadosPage({ listTickets, changeStatus }: MeusChamadosPage
 
   const groupedTickets = useMemo(() => {
     const initial: TicketsByStatus = { open: [], progress: [], done: [] };
+    if (!user) {
+      return initial;
+    }
+
     const technicianTickets = tickets.filter((ticket) => ticket.technician.email === user.email);
 
     return technicianTickets.reduce<TicketsByStatus>((acc, ticket) => {
       acc[ticket.status].push(ticket);
       return acc;
     }, initial);
-  }, [tickets, user.email]);
+  }, [tickets, user]);
 
   const handleStatusChange = useCallback(
     async (ticketId: string, nextStatus: TicketStatus) => {
@@ -60,6 +64,10 @@ export function MeusChamadosPage({ listTickets, changeStatus }: MeusChamadosPage
         <CircularProgress />
       </Box>
     );
+  }
+
+  if (!user) {
+    return null;
   }
 
   return (

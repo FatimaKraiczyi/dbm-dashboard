@@ -6,7 +6,11 @@ import { Sidebar } from '../sidebar/sidebar';
 
 export function Layout({ children }: PropsWithChildren) {
   const { user } = useCurrentUser();
-  const items = useMemo(() => getNavItemsForRole(user.role), [user.role]);
+  const items = useMemo(() => (user ? getNavItemsForRole(user.role) : []), [user]);
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <Box sx={{ display: 'flex', height: '100vh', bgcolor: '#151619' }}>

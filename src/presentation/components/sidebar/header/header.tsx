@@ -3,6 +3,9 @@ import { Avatar, Box, Stack, Typography } from '@mui/material';
 
 export function SidebarHeader() {
   const { user } = useCurrentUser();
+  if (!user) {
+    return null;
+  }
   
   return (
     <Box sx={{ p: 3, borderBottom: '1px solid #1E2024' }}>

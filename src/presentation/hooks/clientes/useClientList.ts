@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { Client } from '@/domain/models';
-import type { ListClients } from '@/domain/usecases/chamados';
+import type { ListClients } from '@/domain/usecases/clientes';
 
 interface UseClientListResult {
   clients: Client[];

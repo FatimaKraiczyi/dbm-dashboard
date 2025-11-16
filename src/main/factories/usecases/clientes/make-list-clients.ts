@@ -1,5 +1,5 @@
 import { LoadClients } from '@/data/usecases';
-import type { ListClients } from '@/domain/usecases/chamados';
+import type { ListClients } from '@/domain/usecases/clientes';
 import { LocalStorageClientStore } from '@/infra/cache';
 
 export function makeListClients(): ListClients {

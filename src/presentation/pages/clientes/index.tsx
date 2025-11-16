@@ -1,5 +1,5 @@
 import { Alert, Box } from '@mui/material';
-import type { ListClients } from '@/domain/usecases/chamados';
+import type { ListClients } from '@/domain/usecases/clientes';
 import { PageHeader } from '@/presentation/components';
 import { useClientList } from '@/presentation/hooks';
 import { ClientsTable } from './components';
