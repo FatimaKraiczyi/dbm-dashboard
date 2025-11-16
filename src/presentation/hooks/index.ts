@@ -1,1 +1,2 @@
-export { useTickets } from './useTickets';
+export * from './chamados';
+export * from './clientes';

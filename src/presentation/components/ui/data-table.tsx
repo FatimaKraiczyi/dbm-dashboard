@@ -23,7 +23,7 @@ interface DataTableProps<T> {
   columns: DataTableColumn<T>[];
   data: T[];
   loading?: boolean;
-  getRowKey: (row: T) => string | number;
+  getRowKey?: (row: T) => string | number;
 }
 
 export function DataTable<T>({ columns, data, loading = false, getRowKey }: DataTableProps<T>) {
@@ -54,8 +54,8 @@ export function DataTable<T>({ columns, data, loading = false, getRowKey }: Data
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((row) => (
-            <TableRow key={getRowKey(row)}>
+          {data.map((row, index) => (
+            <TableRow key={getRowKey ? getRowKey(row) : index}>
               {columns.map((col) => (
                 <TableCell
                   key={col.id}

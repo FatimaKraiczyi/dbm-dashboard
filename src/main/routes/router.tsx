@@ -1,22 +1,19 @@
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider } from '@mui/material/styles'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { TicketProvider } from '@/presentation/contexts'
-import Chamados from '@/presentation/pages/Chamados/Chamados'
-import ChamadoDetalhado from '@/presentation/pages/Chamados/ChamadoDetalhado'
-import Clientes from '@/presentation/pages/Clientes/Clientes'
+import { makeClientsPage, makeTicketDetailPage, makeTicketListPage } from '@/main/factories/pages'
 import theme from '@/presentation/styles/theme'
-import { AppLayout } from '../../presentation/pages/app-layout'
+import { App } from '@/presentation/components'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <AppLayout />,
+    element: <App />,
     children: [
-      { index: true, element: <Chamados /> },
-      { path: 'chamados', element: <Chamados /> },
-      { path: 'chamados/:id', element: <ChamadoDetalhado /> },
-      { path: 'clientes', element: <Clientes /> },
+      { index: true, element: makeTicketListPage() },
+      { path: 'chamados', element: makeTicketListPage() },
+      { path: 'chamados/:id', element: makeTicketDetailPage() },
+      { path: 'clientes', element: makeClientsPage() },
     ],
   },
 ])
@@ -26,9 +23,7 @@ export function Router() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <TicketProvider>
-        <RouterProvider router={router} />
-      </TicketProvider>
+      <RouterProvider router={router} />
     </ThemeProvider>
   )
 }
