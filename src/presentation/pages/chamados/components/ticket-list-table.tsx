@@ -71,7 +71,7 @@ export function TicketListTable({ tickets, loading }: TicketListTableProps) {
         width: 52,
         align: 'center',
         render: (ticket) => (
-          <Link to={`/chamados/${ticket.id}`} style={{ textDecoration: 'none' }}>
+          <Link to={`/chamado/${ticket.id}`} style={{ textDecoration: 'none' }}>
             <IconButton size="small" sx={{ color: '#1E2024' }}>
               <RemoveRedEye sx={{ fontSize: 14 }} />
             </IconButton>

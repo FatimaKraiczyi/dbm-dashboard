@@ -28,3 +28,11 @@ export function getNavItemsForRole(role: UserRole): NavItem[] {
 }
 
 export const navItems = baseNavItems;
+
+export function getDefaultPathForRole(role: UserRole): string {
+  const allowedItems = getNavItemsForRole(role);
+  if (allowedItems.length > 0) {
+    return allowedItems[0].path;
+  }
+  return '/';
+}
