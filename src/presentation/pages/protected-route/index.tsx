@@ -1,16 +1,15 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import type { UserRole } from '@/domain/models';
-import { useApiContext } from '@/presentation/hooks';
-import { getDefaultPathForRole } from '@/presentation/navigation';
 import { Layout } from '@/presentation/components';
+import { useSession } from '@/presentation/contexts';
+import { getDefaultPathForRole } from '@/presentation/navigation';
 
 interface PrivateRouteProps {
   allowedRoles?: UserRole[];
 }
 
 export function PrivateRoute({ allowedRoles }: PrivateRouteProps) {
-  const { getCurrentUser } = useApiContext();
-  const user = getCurrentUser();
+  const { user } = useSession();
   const location = useLocation();
 
   if (!user) {

@@ -1,51 +1,49 @@
-import { useCallback, useMemo, useState, type ReactNode } from 'react';
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
 import type { BaseUser } from '@/domain/models';
 import { clearCurrentUser, getCurrentUser, listAvailableUsers, setCurrentUser } from '@/infra/cache';
-import { ApiContext } from './api-context';
-import { CurrentUserContext } from './current-user-context';
 
-export function AppProvider({ children }: { children: ReactNode }) {
+interface SessionContextValue {
+  user: BaseUser | null;
+  availableUsers: BaseUser[];
+  switchUser: (id: string) => void;
+  logout: () => void;
+}
+
+const SessionContext = createContext<SessionContextValue | undefined>(undefined);
+
+export function SessionProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<BaseUser | null>(() => getCurrentUser());
   const [availableUsers] = useState<BaseUser[]>(() => listAvailableUsers());
 
-  const handleSwitchUser = useCallback((id: string) => {
+  const switchUser = useCallback((id: string) => {
     const next = setCurrentUser(id);
     setUser(next);
   }, []);
 
-  const handleSetCurrentUser = useCallback((next: BaseUser | null) => {
-    if (next) {
-      const updated = setCurrentUser(next.id);
-      setUser(updated);
-      return;
-    }
-
+  const logout = useCallback(() => {
     clearCurrentUser();
     setUser(null);
   }, []);
 
-  const handleGetCurrentUser = useCallback(() => user, [user]);
-
-  const apiValue = useMemo(
-    () => ({
-      setCurrentUser: handleSetCurrentUser,
-      getCurrentUser: handleGetCurrentUser,
-    }),
-    [handleSetCurrentUser, handleGetCurrentUser],
-  );
-
-  const currentUserValue = useMemo(
+  const value = useMemo(
     () => ({
       user,
       availableUsers,
-      switchUser: handleSwitchUser,
+      switchUser,
+      logout,
     }),
-    [user, availableUsers, handleSwitchUser],
+    [user, availableUsers, switchUser, logout],
   );
 
-  return (
-    <ApiContext.Provider value={apiValue}>
-      <CurrentUserContext.Provider value={currentUserValue}>{children}</CurrentUserContext.Provider>
-    </ApiContext.Provider>
-  );
+  return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>;
+}
+
+export function useSession(): SessionContextValue {
+  const context = useContext(SessionContext);
+  if (!context) {
+    throw new Error('useSession must be used within the SessionProvider');
+  }
+
+  return context;
 }

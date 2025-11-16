@@ -1,11 +1,11 @@
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { Avatar, Box, ButtonBase, Divider, ListItemIcon, Menu, MenuItem, Stack, Typography } from '@mui/material';
 import { useState, type MouseEvent } from 'react';
-import { useCurrentUser } from '@/presentation/contexts';
+import { useSession } from '@/presentation/contexts';
 import { useLogout } from '@/presentation/hooks';
 
 export function SidebarUserSection() {
-  const { user, availableUsers, switchUser } = useCurrentUser();
+  const { user, availableUsers, switchUser } = useSession();
   const logout = useLogout();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);

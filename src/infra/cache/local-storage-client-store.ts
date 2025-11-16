@@ -28,18 +28,10 @@ export async function listTechnicians(): Promise<Technician[]> {
   return clone(techniciansDB);
 }
 
-function delay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-function clone<T>(value: T): T {
-  return JSON.parse(JSON.stringify(value)) as T;
-}
-
 let runtimeClients: Client[] = clone(defaultClients);
 
 function readClients(): Client[] {
-  if (typeof window === 'undefined') {
+  if (!isBrowser()) {
     return runtimeClients;
   }
 
@@ -57,4 +49,16 @@ function readClients(): Client[] {
   }
 
   return runtimeClients;
+}
+
+function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function clone<T>(value: T): T {
+  return JSON.parse(JSON.stringify(value)) as T;
+}
+
+function isBrowser() {
+  return typeof window !== 'undefined';
 }

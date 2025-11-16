@@ -1,11 +1,11 @@
 import { Box } from '@mui/material';
 import { useMemo, type PropsWithChildren } from 'react';
 import { getNavItemsForRole } from '@/presentation/navigation';
-import { useCurrentUser } from '@/presentation/contexts';
+import { useSession } from '@/presentation/contexts';
 import { Sidebar } from '../sidebar/sidebar';
 
 export function Layout({ children }: PropsWithChildren) {
-  const { user } = useCurrentUser();
+  const { user } = useSession();
   const items = useMemo(() => (user ? getNavItemsForRole(user.role) : []), [user]);
 
   if (!user) {

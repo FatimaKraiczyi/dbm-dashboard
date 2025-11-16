@@ -10,10 +10,6 @@ const STATUS_LABELS: Record<TicketStatus, string> = {
   done: 'Encerrado',
 };
 
-function clone<T>(value: T): T {
-  return JSON.parse(JSON.stringify(value)) as T;
-}
-
 const defaultTickets: Ticket[] = [
   {
     id: '00003',
@@ -181,14 +177,10 @@ export class LocalStorageTicketStore implements TicketStore {
   }
 }
 
-function delay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 let runtimeTickets: Ticket[] = clone(defaultTickets);
 
 function readTickets(): Ticket[] {
-  if (typeof window === 'undefined') {
+  if (!isBrowser()) {
     return runtimeTickets;
   }
 
@@ -210,9 +202,21 @@ function readTickets(): Ticket[] {
 
 function persistTickets(tickets: Ticket[]) {
   runtimeTickets = clone(tickets);
-  if (typeof window !== 'undefined') {
+  if (isBrowser()) {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(runtimeTickets));
   }
+}
+
+function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function clone<T>(value: T): T {
+  return JSON.parse(JSON.stringify(value)) as T;
+}
+
+function isBrowser() {
+  return typeof window !== 'undefined';
 }
 
 function findTicketIndex(tickets: Ticket[], ticketId: string): number {

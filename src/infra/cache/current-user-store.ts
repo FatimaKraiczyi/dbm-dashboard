@@ -76,7 +76,7 @@ function resolveCurrentUser(): BaseUser | null {
 }
 
 function readStoredUserId(): string | null | undefined {
-  if (typeof window === 'undefined') {
+  if (!isBrowser()) {
     return typeof runtimeUser === 'undefined' ? undefined : runtimeUser?.id ?? null;
   }
 
@@ -94,7 +94,7 @@ function readStoredUserId(): string | null | undefined {
 }
 
 function persistCurrentUser(id: string | null) {
-  if (typeof window === 'undefined') {
+  if (!isBrowser()) {
     return;
   }
 
@@ -112,4 +112,8 @@ function cloneUser(user: BaseUser): BaseUser {
 
 function cloneNullableUser(user: BaseUser | null): BaseUser | null {
   return user ? cloneUser(user) : null;
+}
+
+function isBrowser() {
+  return typeof window !== 'undefined';
 }

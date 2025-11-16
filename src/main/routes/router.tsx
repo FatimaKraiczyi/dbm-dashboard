@@ -3,14 +3,14 @@ import { ThemeProvider } from '@mui/material/styles'
 import { BrowserRouter, Route, Routes,  } from 'react-router-dom'
 import { makeClientsPage as MakeClients, makeMyTicketsPage as MakeTicket, makeSignInPage as MakeSignIn, makeTicketDetailPage as MakeTicketDetail, makeTicketListPage as MakeListTicket } from '@/main/factories/pages'
 import theme from '@/presentation/styles/theme'
-import { AppProvider } from '@/presentation/contexts'
+import { SessionProvider } from '@/presentation/contexts'
 import { PrivateRoute } from '@/presentation/pages/protected-route'
 
 export function Router() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AppProvider>
+      <SessionProvider>
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<MakeSignIn />} />
@@ -26,7 +26,7 @@ export function Router() {
             </Route>
           </Routes>
         </BrowserRouter>
-      </AppProvider>
+      </SessionProvider>
     </ThemeProvider>
   )
 }

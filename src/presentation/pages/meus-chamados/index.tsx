@@ -3,7 +3,7 @@ import { useCallback, useMemo, useState } from 'react';
 import type { Ticket, TicketStatus } from '@/domain/models';
 import type { ListTickets, UpdateTicketStatus } from '@/domain/usecases/chamados';
 import { PageHeader } from '@/presentation/components';
-import { useCurrentUser } from '@/presentation/contexts';
+import { useSession } from '@/presentation/contexts';
 import { useTicketList } from '@/presentation/hooks/chamados';
 import { TechnicianTicketCard } from './components';
 
@@ -23,7 +23,7 @@ type StatusKey = (typeof statusSections)[number]['key'];
 type TicketsByStatus = Record<StatusKey, Ticket[]>;
 
 export function MeusChamadosPage({ listTickets, changeStatus }: MeusChamadosPageProps) {
-  const { user } = useCurrentUser();
+  const { user } = useSession();
   const { tickets, loading, error, reload } = useTicketList(listTickets);
   const [actionError, setActionError] = useState<string | null>(null);
   const [updatingId, setUpdatingId] = useState<string | null>(null);

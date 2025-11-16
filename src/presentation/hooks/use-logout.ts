@@ -1,14 +1,14 @@
 import { useNavigate } from 'react-router-dom';
-import { useApiContext } from './use-api-context';
+import { useSession } from '@/presentation/contexts';
 
 type ResultType = () => void;
 
 export const useLogout = (): ResultType => {
   const navigate = useNavigate();
-  const { setCurrentUser } = useApiContext();
+  const { logout } = useSession();
 
   return () => {
-    setCurrentUser(null);
+    logout();
     navigate('/login', { replace: true });
   };
 };

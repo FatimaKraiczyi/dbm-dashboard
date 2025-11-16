@@ -1,8 +1,8 @@
-import { useCurrentUser } from '@/presentation/contexts';
+import { useSession } from '@/presentation/contexts';
 import { Avatar, Box, Stack, Typography } from '@mui/material';
 
 export function SidebarHeader() {
-  const { user } = useCurrentUser();
+  const { user } = useSession();
   if (!user) {
     return null;
   }

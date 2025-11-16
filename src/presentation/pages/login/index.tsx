@@ -1,11 +1,11 @@
 import { Box, Button, Paper, Stack, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import type { BaseUser } from '@/domain/models';
-import { useCurrentUser } from '@/presentation/contexts';
+import { useSession } from '@/presentation/contexts';
 import { getDefaultPathForRole } from '@/presentation/navigation';
 
 export function SignInPage() {
-  const { availableUsers, switchUser } = useCurrentUser();
+  const { availableUsers, switchUser } = useSession();
   const navigate = useNavigate();
 
   const handleSelect = (user: BaseUser) => {
