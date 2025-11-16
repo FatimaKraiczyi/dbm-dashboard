@@ -1,36 +1,26 @@
-# DBM Dashboard
+﻿# DBM Dashboard
 
-Aplicação web desenvolvida com propósito de simular o acompanhamento de chamados e clientes.
+Painel web que ilustra a operação de um help desk, permitindo que perfis administrativos e técnicos acompanhem chamados, clientes e serviços adicionais de forma integrada.
 
 ## 💡 Ideia da solução
-- Reproduzir uma visão de painel operacional com navegação lateral fixa.
-- Exibir a lista de chamados com status, técnico responsável e valores formatados.
-- Disponibilizar um detalhe completo do chamado com serviços adicionais e totais calculados dinamicamente.
-- Incluir uma página de clientes com diálogo de edição para evidenciar o fluxo de estado e modais.
-- Mockar integrações através de repositórios em memória para manter o foco na apresentação e na arquitetura.
+- Demonstrar uma arquitetura modular inspirada em Clean Architecture (camadas domain, data, infra, presentation e main).
+- Simular integrações através de repositórios em memória, preservando atenção na experiência de usuário e nas regras de domínio.
+- Reforçar padrões de UI consistentes usando Material UI, componentes reutilizáveis e tipagem forte com TypeScript.
 
 ## 🧰 Tecnologias utilizadas
-- React 19 com React Router para roteamento da aplicação.
-- TypeScript no modo estrito e path alias `@/*` para imports curtos.
-- Vite como bundler e dev server.
-- Material UI 7 + Emotion para UI e theming.
-- ESLint (`@eslint/js`, `@stylistic`, hooks) para padronizar o código.
+- React 19 + React Router 7 para composição de páginas e roteamento declarativo.
+- TypeScript estrito com path alias `@/*` para imports legíveis.
+- Vite 7 como bundler/dev server.
+- Material UI 7 + Emotion para componentes visuais, tema customizado e estilização.
+- ESLint (`@eslint/js`, `@stylistic/eslint-plugin`, `eslint-plugin-react-hooks`, `eslint-plugin-react-refresh`) para qualidade de código.
 
-## 🎯 O que a solução demonstra
-- Separação em camadas (`domain`, `data`, `infra`, `presentation`, `main`) inspirada em Clean Architecture.
-- Hooks e contextos próprios (`useTickets`, `TicketProvider`) para encapsular estado assíncrono.
-- Componentes reutilizáveis (DataTable, StatusBadge, Layout/Sidebar) com estilização consistente.
-- Simulação de cenários assíncronos via datasources mockados com atraso artificial e persistência em `localStorage`.
+## 📂 Arquitetura em camadas
+- `domain`: modelos tipados (`Ticket`, `Client`, `User`) e contratos dos casos de uso.
+- `data`: orquestra a lógica de cada caso de uso (listar, atualizar status, adicionar/remover serviços adicionais).
+- `infra`: stores baseados em `localStorage`, com atrasos artificiais para simular chamadas assíncronas e persistência entre sessões.
+- `presentation`: componentes React, hooks (`useTicketList`, `useTicketDetail`, `useClientList`), contextos e páginas.
+- `main`: bootstrap da aplicação, factories e configuração de rotas protegidas.
 
-## 📂 Estrutura resumida
-```
-src/
-├── domain        # Modelos e contratos de casos de uso
-├── data          # Implementações dos casos de uso
-├── infra         # Repositórios e datasources em memória
-├── presentation  # Componentes React, páginas, hooks, estilos
-└── main          # Bootstrap, tema e roteamento
-```
 
 ## ✅ Pré-requisitos
 - Node.js 20+
