@@ -1,9 +1,9 @@
 import { Box, Paper, Stack } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { navItems, type NavItem } from '@/presentation/navigation';
-import { SidebarHeader } from './Header/sidebar-header';
-import { SidebarNavItem } from './NavItem/sidebar-nav-item';
-import { SidebarUserSection } from './UserSection/sidebar-user-section';
+import { SidebarHeader } from './header/header';
+import { SidebarNavItem } from './nav-item/nav-item';
+import { SidebarUserSection } from './user-section/user-section';
 
 interface SidebarProps {
   items?: NavItem[];
