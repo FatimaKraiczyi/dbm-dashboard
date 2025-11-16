@@ -26,7 +26,7 @@ export function Sidebar({ items = navItems }: SidebarProps) {
       }}
     >
       <SidebarHeader />
-      <Box sx={{ p: 2.5, flex: 1 }}>
+      <Box sx={{ p: 1, flex: 1 }}>
         <Stack spacing={0.5}>
           {items.map((item) => (
             <SidebarNavItem key={item.path} item={item} active={location.pathname === item.path} />

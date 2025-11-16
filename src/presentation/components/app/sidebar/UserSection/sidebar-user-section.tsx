@@ -1,73 +1,177 @@
-import { Avatar, Box, MenuItem, Select, Stack, Typography } from '@mui/material';
-import type { SelectChangeEvent } from '@mui/material/Select';
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import { Avatar, Box, ButtonBase, Divider, ListItemIcon, Menu, MenuItem, Stack, Typography } from '@mui/material';
+import { useState, type MouseEvent } from 'react';
 import { useCurrentUser } from '@/presentation/contexts';
 
 export function SidebarUserSection() {
   const { user, availableUsers, switchUser } = useCurrentUser();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
 
-  const handleChange = (event: SelectChangeEvent<string>) => {
-    switchUser(event.target.value as string);
+  const handleToggle = (event: MouseEvent<HTMLElement>) => {
+    setAnchorEl((current) => (current ? null : event.currentTarget));
   };
 
+  const handleClose = () => setAnchorEl(null);
+
+  const handleSelectUser = (id: string) => {
+    switchUser(id);
+    handleClose();
+  };
+
+  const menuId = 'sidebar-user-menu';
+
   return (
-    <Box sx={{ p: 2, borderTop: '1px solid #1E2024' }}>
-      <Stack direction="row" spacing={1.5} alignItems="center">
-        <Avatar
-          sx={{
-            bgcolor: '#2E3DA3',
-            width: 40,
-            height: 40,
-            fontSize: '12px',
-            fontWeight: 700,
-          }}
-        >
-          {user.initials}
-        </Avatar>
-        <Box sx={{ flex: 1, minWidth: 0 }}>
-          <Typography
-            sx={{
-              fontSize: '14px',
-              fontWeight: 400,
-              color: '#F9FAFA',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-            }}
-          >
-            {user.name}
-          </Typography>
-          <Typography
-            sx={{
-              fontSize: '12px',
-              fontWeight: 400,
-              color: '#858B99',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-            }}
-          >
-            {user.email}
-          </Typography>
-        </Box>
-      </Stack>
-      <Select
-        size="small"
-        value={user.id}
-        onChange={handleChange}
-        fullWidth
+    <Box sx={{ p: 1, borderTop: '1px solid #1E2024' }}>
+      <ButtonBase
+        id={`${menuId}-button`}
+        aria-controls={open ? menuId : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleToggle}
         sx={{
-          mt: 1.5,
-          bgcolor: '#1E2024',
-          color: '#F9FAFA',
-          '& .MuiSelect-icon': { color: '#858B99' },
+          width: '100%',
+          textAlign: 'left',
+          borderRadius: '10px',
+          display: 'block',
+          p: 1,
+          backgroundColor: open ? '#1E2024' : 'transparent',
+          transition: 'background-color 0.2s ease',
+          '&:hover': { backgroundColor: '#1E2024' },
         }}
       >
-        {availableUsers.map((option) => (
-          <MenuItem key={option.id} value={option.id}>
-            {option.name}
-          </MenuItem>
-        ))}
-      </Select>
+        <Stack direction="row" spacing={1.5} alignItems="center" sx={{ width: '100%' }}>
+          <Avatar
+            sx={{
+              bgcolor: '#2E3DA3',
+              width: 40,
+              height: 40,
+              fontSize: '12px',
+              fontWeight: 700,
+            }}
+          >
+            {user.initials}
+          </Avatar>
+          <Box sx={{ flex: 1, minWidth: 0 }}>
+            <Typography
+              sx={{
+                fontSize: '14px',
+                fontWeight: 400,
+                color: '#F9FAFA',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
+            >
+              {user.name}
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: '12px',
+                fontWeight: 400,
+                color: '#858B99',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
+            >
+              {user.email}
+            </Typography>
+          </Box>
+        </Stack>
+      </ButtonBase>
+
+      <Menu
+        anchorEl={anchorEl}
+        id={menuId}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{ sx: { p: 0 } }}
+        slotProps={{
+          paper: {
+            elevation: 0,
+            sx: {
+              overflow: 'visible',
+              filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+
+              mt: 1.5,
+              ml: 1,
+              bgcolor: '#151619',
+              border: '1px solid #F4EFFA',
+              borderRadius: '10px',
+              '&::before': {
+                content: '""',
+                display: 'block',
+                position: 'absolute',
+                left: -5,
+                bottom: 25,
+                height: 10,
+                width: 10,
+                bgcolor: '#151619',
+                borderLeft: '1px solid #F4EFFA',
+                borderBottom: '1px solid #F4EFFA',
+                transform: 'translateY(-50%) rotate(45deg)',
+                zIndex: 0,
+              },
+            },
+          },
+        }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+        transformOrigin={{ horizontal: 'left', vertical: 'center' }}
+      >
+        <Stack spacing={0.5}>
+
+          {availableUsers.map((option) => {
+            const isActive = option.id === user.id;
+            return (
+              <MenuItem
+                key={option.id}
+                onClick={() => handleSelectUser(option.id)}
+                selected={isActive}
+                sx={{
+                  p: 1.5,
+                  minWidth: 220,
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: 1.5,
+                  color: '#E3E5E8',
+                  '&.Mui-selected': {
+                    backgroundColor: 'rgba(255,255,255,0.08)',
+                  },
+                  '&:hover': {
+                    backgroundColor: 'rgba(255,255,255,0.08)',
+                  },
+                }}
+              >
+                <ListItemIcon sx={{ minWidth: 0, mt: 0.25 }}>
+                  <Avatar sx={{ width: 32, height: 32, bgcolor: '#2E3DA3', fontSize: '12px' }}>
+                    {option.initials}
+                  </Avatar>
+                </ListItemIcon>
+                <Box sx={{ flex: 1 }}>
+                  <Typography sx={{ fontSize: '15px', lineHeight: '22px', color: '#E3E5E8' }}>{option.name}</Typography>
+                  <Typography sx={{ fontSize: '12px', color: '#858B99' }}>{option.email}</Typography>
+                </Box>
+              </MenuItem>
+            );
+          })}
+        </Stack>
+        <Divider sx={{ borderColor: 'rgba(255,255,255,0.08)' }} />
+        <MenuItem
+          onClick={handleClose}
+          sx={{
+            p: 2,
+            color: '#D03E3E',
+            gap: 1.5,
+            '&:hover': { backgroundColor: 'rgba(208,62,62,0.12)' },
+          }}
+        >
+          <ListItemIcon sx={{ minWidth: 0 }}>
+            <LogoutRoundedIcon sx={{ fontSize: 20, color: '#D03E3E' }} />
+          </ListItemIcon>
+          <Typography sx={{ fontSize: '15px', lineHeight: '22px' }}>Sair</Typography>
+        </MenuItem>
+      </Menu>
     </Box>
   );
 }
