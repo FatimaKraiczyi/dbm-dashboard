@@ -1,5 +1,5 @@
 import type { ClientStore } from '@/data/protocols';
-import type { BaseUser, Client, Technician } from '@/domain/models';
+import type { Client, Technician } from '@/domain/models';
 
 const STORAGE_KEY = 'dbm-dashboard:clients';
 
@@ -16,13 +16,6 @@ const techniciansDB: Technician[] = [
   { id: 't2', name: 'Ana Oliveira', email: 'ana.oliveira@tech.com', initials: 'AO' },
 ];
 
-const currentUser: BaseUser = {
-  id: 'admin-1',
-  name: 'Usuário Adm',
-  email: 'user.adm@test.com',
-  initials: 'UA',
-};
-
 export class LocalStorageClientStore implements ClientStore {
   async listClients(): Promise<Client[]> {
     await delay(120);
@@ -33,10 +26,6 @@ export class LocalStorageClientStore implements ClientStore {
 export async function listTechnicians(): Promise<Technician[]> {
   await delay(100);
   return clone(techniciansDB);
-}
-
-export function getCurrentUser(): BaseUser {
-  return currentUser;
 }
 
 function delay(ms: number) {

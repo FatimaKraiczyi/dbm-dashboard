@@ -1,5 +1,5 @@
 import { Avatar, Box, Stack, Typography } from '@mui/material';
-import { getCurrentUser } from '@/infra/cache/static-client-store';
+import { getCurrentUser } from '@/infra/cache';
 
 export function SidebarUserSection() {
   const currentUser = getCurrentUser();
