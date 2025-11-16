@@ -8,12 +8,14 @@ const AVAILABLE_USERS: BaseUser[] = [
     name: 'Usuário Adm',
     email: 'user.adm@test.com',
     initials: 'UA',
+    role: 'admin',
   },
   {
     id: 'tech-1',
     name: 'Carlos Silva',
     email: 'carlos.silva@tech.com',
     initials: 'CS',
+    role: 'técnico',
   },
 ];
 

@@ -1,6 +1,9 @@
+import { useCurrentUser } from '@/presentation/contexts';
 import { Avatar, Box, Stack, Typography } from '@mui/material';
 
 export function SidebarHeader() {
+  const { user } = useCurrentUser();
+  
   return (
     <Box sx={{ p: 3, borderBottom: '1px solid #1E2024' }}>
       <Stack direction="row" spacing={1.5} alignItems="center">
@@ -13,7 +16,7 @@ export function SidebarHeader() {
             fontWeight: 700,
           }}
         >
-          HD
+          {user.initials}
         </Avatar>
         <Box>
           <Typography sx={{ fontSize: '20px', fontWeight: 700, color: '#F9FAFA' }}>
@@ -28,7 +31,7 @@ export function SidebarHeader() {
               letterSpacing: '0.6px',
             }}
           >
-            Admin
+            {user.role.toUpperCase()}
           </Typography>
         </Box>
       </Stack>
