@@ -1,8 +1,8 @@
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import type { UserRole } from '@/domain/models';
 import { useApiContext } from '@/presentation/hooks';
 import { getDefaultPathForRole } from '@/presentation/navigation';
-import { App } from './app';
+import { Layout } from '@/presentation/components';
 
 interface PrivateRouteProps {
   allowedRoles?: UserRole[];
@@ -14,7 +14,7 @@ export function PrivateRoute({ allowedRoles }: PrivateRouteProps) {
   const location = useLocation();
 
   if (!user) {
-    return <Navigate to="/signin" replace state={{ from: location }} />;
+    return <Navigate to="/login" replace state={{ from: location }} />;
   }
 
   const isAuthorized = !allowedRoles || allowedRoles.includes(user.role);
@@ -24,5 +24,9 @@ export function PrivateRoute({ allowedRoles }: PrivateRouteProps) {
     return <Navigate to={fallbackPath} replace state={{ from: location }} />;
   }
 
-  return <App />;
+  return (
+    <Layout>
+      <Outlet />
+    </Layout>
+  );
 }

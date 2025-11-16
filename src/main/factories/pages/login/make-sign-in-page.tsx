@@ -1,4 +1,4 @@
-import { SignInPage } from '@/presentation/pages/sign-in';
+import { SignInPage } from '@/presentation/pages/login';
 
 export function makeSignInPage() {
   return <SignInPage />;

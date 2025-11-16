@@ -9,6 +9,6 @@ export const useLogout = (): ResultType => {
 
   return () => {
     setCurrentUser(null);
-    navigate('/signin', { replace: true });
+    navigate('/login', { replace: true });
   };
 };

@@ -1,65 +1,31 @@
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider } from '@mui/material/styles'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { makeClientsPage, makeMyTicketsPage, makeSignInPage, makeTicketDetailPage, makeTicketListPage } from '@/main/factories/pages'
+import { BrowserRouter, Route, Routes,  } from 'react-router-dom'
+import { makeClientsPage as MakeClients, makeMyTicketsPage as MakeTicket, makeSignInPage as MakeSignIn, makeTicketDetailPage as MakeTicketDetail, makeTicketListPage as MakeListTicket } from '@/main/factories/pages'
 import theme from '@/presentation/styles/theme'
 import { AppProvider } from '@/presentation/contexts'
-import { PrivateRoute, RoleHomeRedirect } from '@/presentation/pages/protected-route'
-
-const router = createBrowserRouter([
-  {
-    path: '/signin',
-    element: makeSignInPage(),
-  },
-  {
-    element: <PrivateRoute />,
-    children: [
-      {
-        path: '/',
-        element: <RoleHomeRedirect />,
-      },
-    ],
-  },
-  {
-    element: <PrivateRoute allowedRoles={['admin']} />,
-    children: [
-      {
-        path: '/chamados',
-        element: makeTicketListPage(),
-      },
-      {
-        path: '/clientes',
-        element: makeClientsPage(),
-      },
-    ],
-  },
-  {
-    element: <PrivateRoute allowedRoles={['admin', 'técnico']} />,
-    children: [
-      {
-        path: '/chamado/:id',
-        element: makeTicketDetailPage(),
-      },
-    ],
-  },
-  {
-    element: <PrivateRoute allowedRoles={['técnico']} />,
-    children: [
-      {
-        path: '/meus-chamados',
-        element: makeMyTicketsPage(),
-      },
-    ],
-  },
-])
-
+import { PrivateRoute } from '@/presentation/pages/protected-route'
 
 export function Router() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AppProvider>
-        <RouterProvider router={router} />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/login" element={<MakeSignIn />} />
+            <Route element={<PrivateRoute allowedRoles={['admin']} />}>
+              <Route path="/chamados" element={<MakeListTicket />} />
+              <Route path="/clientes" element={<MakeClients />} />
+            </Route>
+            <Route element={<PrivateRoute allowedRoles={['admin', 'técnico']} />}>
+              <Route path="/chamado/:id" element={<MakeTicketDetail />} />
+            </Route>
+            <Route element={<PrivateRoute allowedRoles={[ 'técnico']} />}>
+              <Route path="/meus-chamados" element={<MakeTicket />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
       </AppProvider>
     </ThemeProvider>
   )
