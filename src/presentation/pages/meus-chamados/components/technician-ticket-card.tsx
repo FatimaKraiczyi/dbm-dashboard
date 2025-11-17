@@ -1,7 +1,6 @@
-import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
 import LaunchIcon from '@mui/icons-material/Launch';
-import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
-import StopCircleOutlinedIcon from '@mui/icons-material/StopCircleOutlined';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ScheduleIcon from '@mui/icons-material/Schedule';
 import { Avatar, Box, Button, Card, Divider, IconButton, Stack, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import type { Ticket, TicketStatus } from '@/domain/models';
@@ -13,7 +12,7 @@ const STATUS_LABELS: Record<TicketStatus, string> = {
   done: 'Encerrado',
 };
 
-type ActionIconComponent = typeof PlayArrowRoundedIcon;
+type ActionIconComponent = typeof ScheduleIcon;
 
 interface StatusActionConfig {
   label: string;
@@ -22,9 +21,9 @@ interface StatusActionConfig {
 }
 
 const STATUS_ACTIONS: Record<TicketStatus, StatusActionConfig> = {
-  open: { label: 'Iniciar', nextStatus: 'progress', icon: PlayArrowRoundedIcon },
-  progress: { label: 'Encerrar', nextStatus: 'done', icon: StopCircleOutlinedIcon },
-  done: { label: 'Encerrado', icon: CheckCircleOutlineRoundedIcon },
+  open: { label: 'Iniciar', nextStatus: 'progress', icon: ScheduleIcon },
+  progress: { label: 'Encerrar', nextStatus: 'done', icon: CheckCircleIcon },
+  done: { label: 'Encerrado', icon: CheckCircleIcon },
 };
 
 interface TechnicianTicketCardProps {
@@ -83,16 +82,15 @@ export function TechnicianTicketCard({ ticket, onChangeStatus, changing = false 
           size="small"
           onClick={() => actionConfig.nextStatus && onChangeStatus?.(ticket.id, actionConfig.nextStatus)}
           disabled={actionDisabled}
-          startIcon={<ActionIcon sx={{ fontSize: 16 }} />}
+          startIcon={<ActionIcon sx={{ fontSize: 14 }} />}
           sx={{
             minWidth: 0,
             px: 1.5,
             height: 32,
             borderRadius: '6px',
             fontSize: '12px',
-            fontWeight: 700,
             textTransform: 'none',
-            bgcolor: actionDisabled ? '#2A2C34' : '#1E2024',
+            bgcolor: actionDisabled ? '#E3E5E8' : '#1E2024',
             color: '#F9FAFA',
             '&:hover': {
               bgcolor: actionDisabled ? '#2A2C34' : '#2B2D33',
