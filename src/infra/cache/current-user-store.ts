@@ -1,7 +1,7 @@
 import type { BaseUser } from '@/domain/models';
 
 const STORAGE_KEY = 'dbm-dashboard:current-user';
-const LOGGED_OUT_KEY = '__none__';
+const LOGGED_OUT_KEY = '';
 
 const AVAILABLE_USERS: BaseUser[] = [
   {
@@ -56,19 +56,15 @@ function resolveCurrentUser(): BaseUser | null {
   }
 
   if (!storedId) {
-    const fallback = AVAILABLE_USERS[0];
-    runtimeUser = fallback;
-    persistCurrentUser(fallback.id);
-    return fallback;
+    runtimeUser = null;
+    return null;
   }
 
   const resolved = AVAILABLE_USERS.find((user) => user.id === storedId);
 
   if (!resolved) {
-    const fallback = AVAILABLE_USERS[0];
-    runtimeUser = fallback;
-    persistCurrentUser(fallback.id);
-    return fallback;
+    runtimeUser = null;
+    return null;
   }
 
   runtimeUser = resolved;

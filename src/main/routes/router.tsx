@@ -1,6 +1,6 @@
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider } from '@mui/material/styles'
-import { BrowserRouter, Route, Routes,  } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { makeClientsPage as MakeClients, makeMyTicketsPage as MakeTicket, makeSignInPage as MakeSignIn, makeTicketDetailPage as MakeTicketDetail, makeTicketListPage as MakeListTicket } from '@/main/factories/pages'
 import theme from '@/presentation/styles/theme'
 import { SessionProvider } from '@/presentation/contexts'
@@ -13,6 +13,9 @@ export function Router() {
       <SessionProvider>
         <BrowserRouter>
           <Routes>
+            <Route path="/" element={<PrivateRoute />}>
+              <Route index element={null} />
+            </Route>
             <Route path="/login" element={<MakeSignIn />} />
             <Route element={<PrivateRoute allowedRoles={['admin']} />}>
               <Route path="/chamados" element={<MakeListTicket />} />

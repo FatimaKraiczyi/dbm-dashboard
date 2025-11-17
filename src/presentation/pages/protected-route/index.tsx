@@ -16,6 +16,11 @@ export function PrivateRoute({ allowedRoles }: PrivateRouteProps) {
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
 
+  if (location.pathname === '/' && !allowedRoles) {
+    const defaultPath = getDefaultPathForRole(user.role);
+    return <Navigate to={defaultPath} replace />;
+  }
+
   const isAuthorized = !allowedRoles || allowedRoles.includes(user.role);
 
   if (!isAuthorized) {
