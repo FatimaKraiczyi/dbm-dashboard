@@ -18,16 +18,18 @@ export function TicketAdditionalServicesCard({ services, onAdd, onRemove, disabl
           Serviços adicionais
         </Typography>
         <Tooltip title="Adicionar serviço">
-          <span>
-            <IconButton
-              size="small"
-              sx={{ bgcolor: '#1E2024', color: '#F9FAFA' }}
-              onClick={onAdd}
-              disabled={disabled}
-            >
-              <AddIcon sx={{ fontSize: 14 }} />
-            </IconButton>
-          </span>
+          <IconButton
+            size="small"
+            sx={{    
+              width: 32,
+              height: 32,
+              borderRadius: 1,  
+              bgcolor: (theme) => theme.palette.grey[500],
+              color: (theme) => theme.palette.grey[300], }}
+            onClick={onAdd}
+          >
+            <AddIcon sx={{ fontSize: 16 }} />
+          </IconButton>
         </Tooltip>
       </Stack>
 
