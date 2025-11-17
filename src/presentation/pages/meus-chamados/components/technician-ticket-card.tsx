@@ -105,16 +105,16 @@ export function TechnicianTicketCard({ ticket, onChangeStatus, changing = false 
 
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Stack spacing={0.5}>
-          <Typography sx={{ fontSize: '12px', color: '#8E95A2', fontWeight: 600 }}>{ticket.id}</Typography>
-          <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#1E2024' }}>{ticket.title}</Typography>
-          <Typography sx={{ fontSize: '13px', color: '#535964' }}>{ticket.service}</Typography>
+          <Typography variant='body1' sx={{ color: '#8E95A2' }}>{ticket.id}</Typography>
+          <Typography variant='h3'>{ticket.title}</Typography>
+          <Typography variant='body2' sx={{ color: '#535964' }}>{ticket.service}</Typography>
         </Stack>
         <Box sx={{ width: 32, height: 32 }} />
       </Stack>
 
       <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Typography sx={{ fontSize: '13px', color: '#535964' }}>{new Date(ticket.createdAt).toLocaleString('pt-BR')}</Typography>
-        <Typography sx={{ fontSize: '13px', fontWeight: 700, color: '#1E2024' }}>{ticket.value}</Typography>
+        <Typography variant='body2' sx={{ color: '#535964' }}>{new Date(ticket.createdAt).toLocaleString('pt-BR')}</Typography>
+        <Typography variant='body1' sx={{ color: '#1E2024' }}>{ticket.value}</Typography>
       </Stack>
 
       <Divider />
@@ -123,8 +123,8 @@ export function TechnicianTicketCard({ ticket, onChangeStatus, changing = false 
         <Stack direction="row" spacing={1.5} alignItems="center">
           <Avatar sx={{ width: 32, height: 32, bgcolor: '#2E3DA3', fontSize: '12px' }}>{ticket.client.initials}</Avatar>
           <Box>
-            <Typography sx={{ fontSize: '13px', fontWeight: 600, color: '#1E2024' }}>{ticket.client.name}</Typography>
-            <Typography sx={{ fontSize: '12px', color: '#535964' }}>{ticket.client.email}</Typography>
+            <Typography variant='body1' sx={{ color: '#1E2024' }}>{ticket.client.name}</Typography>
+            <Typography variant='body2' sx={{ color: '#535964' }}>{ticket.client.email}</Typography>
           </Box>
         </Stack>
         <StatusBadge status={ticket.status} label={STATUS_LABELS[ticket.status]} />

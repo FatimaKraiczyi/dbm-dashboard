@@ -28,8 +28,8 @@ export function SignInPage() {
       >
         <Stack spacing={3}>
           <Stack spacing={1}>
-            <Typography sx={{ color: '#F9FAFA', fontSize: 24, fontWeight: 700 }}>HelpDesk</Typography>
-            <Typography sx={{ color: '#D2D6DF', fontSize: 14 }}>
+            <Typography sx={{ color: '#F9FAFA' }} variant='h1'>HelpDesk</Typography>
+            <Typography sx={{ color: '#D2D6DF' }} variant='subtitle2'>
               Escolha um perfil para acessar o painel.
             </Typography>
           </Stack>
@@ -53,10 +53,11 @@ export function SignInPage() {
                 fullWidth
               >
                 <Box>
-                  <Typography sx={{ fontWeight: 600 }}>{user.name}</Typography>
-                  <Typography sx={{ fontSize: 12, color: '#A7ADBA' }}>{user.email}</Typography>
+                  <Typography variant='subtitle2'>{user.name}</Typography>
+                  <Typography variant='body2'>{user.email}</Typography>
                 </Box>
-                <Typography sx={{ fontSize: 12, color: '#8996EB', fontWeight: 600, textTransform: 'uppercase' }}>
+                <Typography variant='caption'
+                  sx={{ color: '#8996EB'}}>
                   {user.role}
                 </Typography>
               </Button>

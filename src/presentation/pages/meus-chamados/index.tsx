@@ -92,10 +92,10 @@ export function MeusChamadosPage({ listTickets, changeStatus }: MeusChamadosPage
             <Box key={key}>
               <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
                 <Box>
-                  <Typography sx={{ fontSize: '14px', fontWeight: 700 }}>{label}</Typography>
-                  <Typography sx={{ fontSize: '13px', color: '#535964' }}>{description}</Typography>
+                  <Typography variant='subtitle1' sx={{ color: '#1E2024' }}>{label}</Typography>
+                  <Typography variant='body2' sx={{ color: '#535964' }}>{description}</Typography>
                 </Box>
-                <Typography sx={{ fontSize: '12px', color: '#8E95A2' }}>
+                <Typography variant='body2' sx={{ color: '#8E95A2' }}>
                   {ticketsByStatus.length} chamados
                 </Typography>
               </Stack>
@@ -121,7 +121,7 @@ export function MeusChamadosPage({ listTickets, changeStatus }: MeusChamadosPage
                   ))}
                 </Box>
               ) : (
-                <Typography sx={{ fontSize: '13px', color: '#8E95A2' }}>
+                <Typography  variant='body2' sx={{ color: '#8E95A2' }}>
                   Nenhum chamado {label.toLowerCase()}
                 </Typography>
               )}
