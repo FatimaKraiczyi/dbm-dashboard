@@ -46,6 +46,9 @@ export function DataTable<T>({ columns, data, loading = false, getRowKey }: Data
                 sx={{
                   width: col.width,
                   textAlign: col.align || 'left',
+                  fontWeight: 700,
+                  color: '#858B99',
+                  fontSize: '14px',
                 }}
               >
                 {col.label}
@@ -60,8 +63,7 @@ export function DataTable<T>({ columns, data, loading = false, getRowKey }: Data
                 <TableCell
                   key={col.id}
                   sx={{
-                    textAlign: col.align || 'left',
-                    color: '#1E2024',
+                    textAlign: col.align || 'left'
                   }}
                 >
                   {col.render(row)}

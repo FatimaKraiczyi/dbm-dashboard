@@ -72,7 +72,7 @@ export function TicketAdditionalServiceDialog({ open, service, loading, onClose,
         })}
       >
         <Stack direction="row" justifyContent="space-between" alignItems="center">
-          <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#1E2024' }}>Serviço Adicional</Typography>
+          <Typography variant="h3">Serviço Adicional</Typography>
           <IconButton size="small" onClick={handleClose} disabled={loading}>
             <CloseIcon sx={{ fontSize: 18 }} />
           </IconButton>

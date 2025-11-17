@@ -14,7 +14,7 @@ export function TicketAdditionalServicesCard({ services, onAdd, onRemove, disabl
   return (
     <Paper sx={{ p: 3, border: '1px solid #E3E5E8' }}>
       <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
-        <Typography sx={{ fontSize: '12px', fontWeight: 700, color: '#858B99' }}>
+        <Typography variant="body1" sx={{ color: '#858B99' }}>
           Serviços adicionais
         </Typography>
         <Tooltip title="Adicionar serviço">
@@ -37,10 +37,10 @@ export function TicketAdditionalServicesCard({ services, onAdd, onRemove, disabl
             <Box key={service.id}>
               <Stack direction="row" justifyContent="space-between" alignItems="center">
                 <Box>
-                  <Typography sx={{ fontSize: '12px', fontWeight: 700, color: '#1E2024' }}>
+                  <Typography variant="body1" sx={{ color: '#1E2024' }}>
                     {service.name}
                   </Typography>
-                  <Typography sx={{ fontSize: '11px', color: '#535964' }}>{service.value}</Typography>
+                  <Typography variant="body2" sx={{ color: '#535964' }}>{service.value}</Typography>
                 </Box>
                 <Tooltip title="Remover">
                   <span>
@@ -55,7 +55,7 @@ export function TicketAdditionalServicesCard({ services, onAdd, onRemove, disabl
           ))}
         </Stack>
       ) : (
-        <Typography sx={{ fontSize: '12px', color: '#858B99', fontStyle: 'italic' }}>
+        <Typography variant='body2'>
           Nenhum serviço adicional
         </Typography>
       )}

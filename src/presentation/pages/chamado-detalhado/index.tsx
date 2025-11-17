@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Paper, Stack, Typography } from '@mui/material';
+import { Box, CircularProgress, Stack } from '@mui/material';
 import { useCallback, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import type {
@@ -23,7 +23,7 @@ export function ChamadoDetalhadoPage({ loadTicket, changeStatus, addAdditionalSe
   const navigate = useNavigate();
   const [serviceDialogOpen, setServiceDialogOpen] = useState(false);
   const [serviceDialogVersion, setServiceDialogVersion] = useState(0);
-  const { ticket, loading, updatingStatus, managingService, error, totals, handleStatusChange, handleAddService, handleRemoveService } =
+  const { ticket, loading, updatingStatus, managingService, totals, handleStatusChange, handleAddService, handleRemoveService } =
     useTicketDetail({
       id,
       loadTicket,
@@ -70,12 +70,6 @@ export function ChamadoDetalhadoPage({ loadTicket, changeStatus, addAdditionalSe
         disableComplete={updatingStatus || ticket?.status === 'done'}
         disableStart={updatingStatus || ticket?.status === 'progress'}
       />
-
-      {error && (
-        <Paper sx={{ p: 2, mb: 3, bgcolor: '#FCE8E8', border: '1px solid #F6C1C1' }}>
-          <Typography sx={{ fontSize: '12px', color: '#A11B1B' }}>{error}</Typography>
-        </Paper>
-      )}
 
       <Stack direction="row" spacing={3}>
         <Box sx={{ flex: 1, maxWidth: 480 }}>

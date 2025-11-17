@@ -17,14 +17,15 @@ export function ClientsTable({ clients, loading }: ClientsTableProps) {
         render: (client) => (
           <Stack direction="row" spacing={1.5} alignItems="center">
             <Avatar sx={{ width: 32, height: 32, fontSize: '12px' }}>{client.initials}</Avatar>
-            <Typography sx={{ fontSize: '14px', fontWeight: 700 }}>{client.name}</Typography>
+            <Typography variant='subtitle2' sx={{color: '#1E2024'}}>
+              {client.name}</Typography>
           </Stack>
         ),
       },
       {
         id: 'email',
         label: 'E-mail',
-        render: (client) => <Typography sx={{ fontSize: '14px' }}>{client.email}</Typography>,
+        render: (client) => <Typography variant='subtitle2' sx={{color: '#1E2024'}}>{client.email}</Typography>,
       },
     ],
     [],

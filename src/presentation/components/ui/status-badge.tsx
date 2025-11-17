@@ -1,4 +1,4 @@
-import { CheckCircle, Error, Info } from '@mui/icons-material';
+import { CheckCircleOutline, ErrorOutline, InfoOutline } from '@mui/icons-material';
 import { Chip } from '@mui/material';
 
 export type StatusType = 'open' | 'progress' | 'done';
@@ -11,17 +11,17 @@ interface StatusBadgeProps {
 export function StatusBadge({ status, label }: StatusBadgeProps) {
   const statusConfig = {
     open: {
-      icon: Error,
+      icon: ErrorOutline,
       bgcolor: 'rgba(204, 61, 106, 0.20)',
       color: '#CC3D6A',
     },
     progress: {
-      icon: Info,
+      icon: InfoOutline,
       bgcolor: 'rgba(53, 94, 197, 0.20)',
       color: '#355EC5',
     },
     done: {
-      icon: CheckCircle,
+      icon: CheckCircleOutline,
       bgcolor: 'rgba(80, 139, 38, 0.20)',
       color: '#508B26',
     },
@@ -31,10 +31,11 @@ export function StatusBadge({ status, label }: StatusBadgeProps) {
 
   return (
     <Chip
-      icon={<config.icon />}
+      icon={<config.icon sx={{color: config.bgcolor}} />}
       label={label}
       sx={{
         bgcolor: config.bgcolor,
+        fontFamily: 'Lato, sans-serif',
         color: config.color,
         fontWeight: 700,
         fontSize: '12px',

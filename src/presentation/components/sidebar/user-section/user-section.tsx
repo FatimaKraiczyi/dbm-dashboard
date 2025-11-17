@@ -47,40 +47,14 @@ export function SidebarUserSection() {
         }}
       >
         <Stack direction="row" spacing={1.5} alignItems="center" sx={{ width: '100%' }}>
-          <Avatar
-            sx={{
-              bgcolor: '#2E3DA3',
-              width: 40,
-              height: 40,
-              fontSize: '12px',
-              fontWeight: 700,
-            }}
-          >
+          <Avatar>
             {user.initials}
           </Avatar>
           <Box sx={{ flex: 1, minWidth: 0 }}>
-            <Typography
-              sx={{
-                fontSize: '14px',
-                fontWeight: 400,
-                color: '#F9FAFA',
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-              }}
-            >
+            <Typography variant='subtitle2'>
               {user.name}
             </Typography>
-            <Typography
-              sx={{
-                fontSize: '12px',
-                fontWeight: 400,
-                color: '#858B99',
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-              }}
-            >
+            <Typography variant='body2'>
               {user.email}
             </Typography>
           </Box>
@@ -99,7 +73,6 @@ export function SidebarUserSection() {
             sx: {
               overflow: 'visible',
               filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-
               mt: 1.5,
               ml: 1,
               bgcolor: '#151619',
@@ -155,8 +128,8 @@ export function SidebarUserSection() {
                   </Avatar>
                 </ListItemIcon>
                 <Box sx={{ flex: 1 }}>
-                  <Typography sx={{ fontSize: '15px', lineHeight: '22px', color: '#E3E5E8' }}>{option.name}</Typography>
-                  <Typography sx={{ fontSize: '12px', color: '#858B99' }}>{option.email}</Typography>
+                  <Typography variant='subtitle2'>{option.name}</Typography>
+                  <Typography variant='body2'>{option.email}</Typography>
                 </Box>
               </MenuItem>
             );
@@ -178,7 +151,7 @@ export function SidebarUserSection() {
           <ListItemIcon sx={{ minWidth: 0 }}>
             <LogoutRoundedIcon sx={{ fontSize: 20, color: '#D03E3E' }} />
           </ListItemIcon>
-          <Typography sx={{ fontSize: '15px', lineHeight: '22px' }}>Sair</Typography>
+          <Typography variant='h4' sx={{ color: '#D03E3E'  }}>Sair</Typography>
         </MenuItem>
       </Menu>
     </Box>

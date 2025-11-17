@@ -62,6 +62,7 @@ const theme = createTheme({
       fontSize: "1.25rem", // 20px
       fontWeight: 700,
       lineHeight: "1.4",
+      color: designTokens.colors.grayscale[600],
     },
     h3: {
       fontSize: "1rem", // 16px
@@ -96,6 +97,7 @@ const theme = createTheme({
       fontSize: "0.75rem", // 12px
       fontWeight: 400,
       lineHeight: "1.4",
+      color: designTokens.colors.grayscale[400],
     },
     caption: {
       fontSize: "10px",

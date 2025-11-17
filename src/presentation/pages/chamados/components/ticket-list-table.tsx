@@ -19,7 +19,7 @@ export function TicketListTable({ tickets, loading }: TicketListTableProps) {
         label: 'Atualizado em',
         width: 132,
         render: (ticket) => (
-          <Typography sx={{ fontSize: '12px' }}>{formatDate(ticket.date, true)}</Typography>
+          <Typography variant='body2' sx={{color: '#1E2024'}}>{formatDate(ticket.date, true)}</Typography>
         ),
       },
       {
@@ -27,7 +27,7 @@ export function TicketListTable({ tickets, loading }: TicketListTableProps) {
         label: 'Id',
         width: 64,
         render: (ticket) => (
-          <Typography sx={{ fontSize: '12px', fontWeight: 700 }}>{ticket.id}</Typography>
+          <Typography variant='body1'>{ticket.id}</Typography>
         ),
       },
       {
@@ -35,8 +35,8 @@ export function TicketListTable({ tickets, loading }: TicketListTableProps) {
         label: 'Título e Serviço',
         render: (ticket) => (
           <>
-            <Typography sx={{ fontSize: '14px', fontWeight: 700 }}>{ticket.title}</Typography>
-            <Typography sx={{ fontSize: '12px' }}>{ticket.service}</Typography>
+            <Typography variant='subtitle1' sx={{color: '#1E2024'}}>{ticket.title}</Typography>
+            <Typography variant='body2' sx={{color: '#1E2024'}}>{ticket.service}</Typography>
           </>
         ),
       },
@@ -44,19 +44,19 @@ export function TicketListTable({ tickets, loading }: TicketListTableProps) {
         id: 'value',
         label: 'Valor total',
         width: 104,
-        render: (ticket) => <Typography sx={{ fontSize: '14px' }}>{ticket.value}</Typography>,
+        render: (ticket) => <Typography variant='subtitle2' sx={{color: '#1E2024'}}>{ticket.value}</Typography>,
       },
       {
         id: 'client',
         label: 'Cliente',
         width: 160,
-        render: (ticket) => <Typography sx={{ fontSize: '14px' }}>{ticket.client.name}</Typography>,
+        render: (ticket) => <Typography  variant='subtitle2' sx={{color: '#1E2024'}}>{ticket.client.name}</Typography>,
       },
       {
         id: 'technician',
         label: 'Técnico',
         width: 160,
-        render: (ticket) => <Typography sx={{ fontSize: '14px' }}>{ticket.technician.name}</Typography>,
+        render: (ticket) => <Typography variant='subtitle2' sx={{color: '#1E2024'}}>{ticket.technician.name}</Typography>,
       },
       {
         id: 'status',

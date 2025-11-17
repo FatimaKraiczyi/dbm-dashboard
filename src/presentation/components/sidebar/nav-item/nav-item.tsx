@@ -27,7 +27,7 @@ export function SidebarNavItem({ item, active = false }: SidebarNavItemProps) {
         }}
       >
         {item.icon}
-        <Typography variant='body2'>{item.label}</Typography>
+        <Typography variant='subtitle2'>{item.label}</Typography>
       </Box>
     </Link>
   );

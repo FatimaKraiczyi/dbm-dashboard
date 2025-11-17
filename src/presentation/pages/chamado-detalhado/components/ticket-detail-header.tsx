@@ -20,16 +20,13 @@ export function TicketDetailHeader({ onBack, onComplete, onStart, disableComplet
           onClick={onBack}
           sx={{
             color: '#535964',
-            textTransform: 'none',
             fontSize: '12px',
-            fontWeight: 700,
-            mb: 1,
-            p: 0,
+            fontWeight: 700
           }}
         >
           Voltar
         </Button>
-        <Typography variant="h1" sx={{ color: 'primary.main' }}>
+        <Typography variant="h1">
           Chamado detalhado
         </Typography>
       </Box>
@@ -41,8 +38,6 @@ export function TicketDetailHeader({ onBack, onComplete, onStart, disableComplet
             bgcolor: '#E3E5E8',
             color: '#1E2024',
             border: 'none',
-            textTransform: 'none',
-            px: 2,
           }}
           disabled={disableComplete}
           onClick={onComplete}
@@ -55,8 +50,6 @@ export function TicketDetailHeader({ onBack, onComplete, onStart, disableComplet
           sx={{
             bgcolor: '#1E2024',
             color: '#F9FAFA',
-            textTransform: 'none',
-            px: 2,
           }}
           disabled={disableStart}
           onClick={onStart}
