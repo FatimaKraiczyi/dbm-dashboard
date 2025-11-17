@@ -1,10 +1,10 @@
-import LaunchIcon from '@mui/icons-material/Launch';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import { Avatar, Box, Button, Card, Divider, IconButton, Stack, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import type { Ticket, TicketStatus } from '@/domain/models';
 import { StatusBadge } from '@/presentation/components';
+import { EditOutlined } from '@mui/icons-material';
 
 const STATUS_LABELS: Record<TicketStatus, string> = {
   open: 'Aberto',
@@ -35,6 +35,7 @@ interface TechnicianTicketCardProps {
 export function TechnicianTicketCard({ ticket, onChangeStatus, changing = false }: TechnicianTicketCardProps) {
   const actionConfig = STATUS_ACTIONS[ticket.status];
   const ActionIcon = actionConfig.icon;
+  const variantConfig = ticket.status === 'progress' ? 'outlined' : 'contained';
   const actionDisabled = !actionConfig.nextStatus || !onChangeStatus || changing;
 
   return (
@@ -71,30 +72,22 @@ export function TechnicianTicketCard({ ticket, onChangeStatus, changing = false 
           sx={{
             width: 32,
             height: 32,
-            bgcolor: '#E3E5E8',
-            borderRadius: '6px',
-            '&:hover': { bgcolor: '#D6DAE1' },
+            borderRadius: 1,  
+            bgcolor: (theme) => theme.palette.grey[500],
+            color: (theme) => theme.palette.grey[300],
           }}
         >
-          <LaunchIcon sx={{ fontSize: 16, color: '#535964' }} />
+          <EditOutlined sx={{ fontSize: 16 }} />
         </IconButton>
         <Button
-          size="small"
+          variant={variantConfig}
           onClick={() => actionConfig.nextStatus && onChangeStatus?.(ticket.id, actionConfig.nextStatus)}
           disabled={actionDisabled}
           startIcon={<ActionIcon sx={{ fontSize: 14 }} />}
           sx={{
-            minWidth: 0,
-            px: 1.5,
-            height: 32,
-            borderRadius: '6px',
             fontSize: '12px',
-            textTransform: 'none',
-            bgcolor: actionDisabled ? '#E3E5E8' : '#1E2024',
-            color: '#F9FAFA',
-            '&:hover': {
-              bgcolor: actionDisabled ? '#2A2C34' : '#2B2D33',
-            },
+            bgcolor: variantConfig === 'outlined' ? '#E3E5E8' : '#1E2024',
+            color: variantConfig === 'outlined' ? '#1E2024' : '#F9FAFA',
           }}
         >
           {actionConfig.label}
@@ -119,7 +112,7 @@ export function TechnicianTicketCard({ ticket, onChangeStatus, changing = false 
 
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Stack direction="row" spacing={1.5} alignItems="center">
-          <Avatar sx={{ width: 32, height: 32, bgcolor: '#2E3DA3', fontSize: '12px' }}>{ticket.client.initials}</Avatar>
+          <Avatar sx={{ width: 32, height: 32, fontSize: '12px' }}>{ticket.client.initials}</Avatar>
           <Box>
             <Typography variant='body1' sx={{ color: '#1E2024' }}>{ticket.client.name}</Typography>
             <Typography variant='body2' sx={{ color: '#535964' }}>{ticket.client.email}</Typography>

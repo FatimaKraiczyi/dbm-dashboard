@@ -69,6 +69,7 @@ export function ChamadoDetalhadoPage({ loadTicket, changeStatus, addAdditionalSe
         onStart={() => handleStatusChange('progress')}
         disableComplete={updatingStatus || ticket?.status === 'done'}
         disableStart={updatingStatus || ticket?.status === 'progress'}
+        isDone={ticket?.status === 'done'}
       />
 
       <Stack direction="row" spacing={3}>

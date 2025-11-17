@@ -1,10 +1,10 @@
 import { IconButton, Typography } from '@mui/material';
-import { RemoveRedEye } from '@mui/icons-material';
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import type { Ticket } from '@/domain/models';
 import { DataTable, StatusBadge, type DataTableColumn } from '@/presentation/components';
 import { formatDate } from '@/presentation/utils';
+import { EditOutlined } from '@mui/icons-material';
 
 interface TicketListTableProps {
   tickets: Ticket[];
@@ -72,8 +72,8 @@ export function TicketListTable({ tickets, loading }: TicketListTableProps) {
         align: 'center',
         render: (ticket) => (
           <Link to={`/chamado/${ticket.id}`} style={{ textDecoration: 'none' }}>
-            <IconButton size="small" sx={{ color: '#1E2024' }}>
-              <RemoveRedEye sx={{ fontSize: 14 }} />
+            <IconButton size="small" sx={{ color: '#535964' }}>
+              <EditOutlined sx={{ fontSize: 16 }} />
             </IconButton>
           </Link>
         ),

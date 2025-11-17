@@ -39,6 +39,14 @@ const theme = createTheme({
       primary: designTokens.colors.grayscale[100],
       secondary: designTokens.colors.grayscale[300],
     },
+    grey: {
+      100: designTokens.colors.grayscale[100],
+      200: designTokens.colors.grayscale[200],
+      300: designTokens.colors.grayscale[300],
+      400: designTokens.colors.grayscale[400],
+      500: designTokens.colors.grayscale[500],
+      600: designTokens.colors.grayscale[600],
+    },
     divider: designTokens.colors.grayscale[500],
     success: {
       main: designTokens.colors.feedback.done,

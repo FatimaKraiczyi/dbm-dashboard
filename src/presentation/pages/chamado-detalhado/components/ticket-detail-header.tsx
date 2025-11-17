@@ -9,9 +9,10 @@ interface TicketDetailHeaderProps {
   onStart: () => void;
   disableComplete: boolean;
   disableStart: boolean;
+  isDone: boolean;
 }
 
-export function TicketDetailHeader({ onBack, onComplete, onStart, disableComplete, disableStart }: TicketDetailHeaderProps) {
+export function TicketDetailHeader({ onBack, onComplete, onStart, disableComplete, disableStart, isDone }: TicketDetailHeaderProps) {
   return (
     <Stack direction="row" alignItems="flex-end" spacing={2} mb={3}>
       <Box flex={1}>
@@ -37,9 +38,8 @@ export function TicketDetailHeader({ onBack, onComplete, onStart, disableComplet
           sx={{
             bgcolor: '#E3E5E8',
             color: '#1E2024',
-            border: 'none',
           }}
-          disabled={disableComplete}
+          disabled={disableComplete || isDone}
           onClick={onComplete}
         >
           Encerrar
@@ -51,7 +51,7 @@ export function TicketDetailHeader({ onBack, onComplete, onStart, disableComplet
             bgcolor: '#1E2024',
             color: '#F9FAFA',
           }}
-          disabled={disableStart}
+          disabled={disableStart || isDone}
           onClick={onStart}
         >
           Iniciar atendimento
