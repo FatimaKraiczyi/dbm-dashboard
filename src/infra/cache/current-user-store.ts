@@ -40,7 +40,9 @@ export function setCurrentUser(id: string): BaseUser {
 
 export function clearCurrentUser(): void {
   runtimeUser = null;
-  persistCurrentUser(null);
+  if (isBrowser()) {
+    window.localStorage.clear();
+  }
 }
 
 function resolveCurrentUser(): BaseUser | null {
