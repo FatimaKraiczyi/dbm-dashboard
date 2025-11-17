@@ -9,4 +9,3 @@ export interface BaseUser {
 }
 
 export type Client = BaseUser;
-export type Technician = BaseUser;
