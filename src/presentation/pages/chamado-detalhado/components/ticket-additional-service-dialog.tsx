@@ -65,8 +65,8 @@ export function TicketAdditionalServiceDialog({ open, service, loading, onClose,
       <DialogTitle
         sx={(theme) => ({
           p: '20px 28px',
-          borderBottom: `1px solid ${theme.palette.grey[300]}`,
-          bgcolor: theme.palette.grey[100],
+          borderBottom: `1px solid ${theme.palette.grey[500]}`,
+          bgcolor: theme.palette.grey[600],
           borderTopLeftRadius: '10px',
           borderTopRightRadius: '10px',
         })}
@@ -79,7 +79,7 @@ export function TicketAdditionalServiceDialog({ open, service, loading, onClose,
         </Stack>
       </DialogTitle>
       <Box component="form" onSubmit={handleSubmit}>
-        <DialogContent sx={{ p: '28px 28px 32px', gap: '20px', borderBottom: `1px solid ${theme.palette.grey[300]}`,
+        <DialogContent sx={{ p: '28px 28px 32px', gap: '20px', borderBottom: `1px solid ${theme.palette.grey[500]}`,
         }}>
           <Stack sx={{ gap: '16px' }}>
             <Box display="flex" flexDirection="column" gap='8px'>
